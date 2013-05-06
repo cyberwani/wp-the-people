@@ -3,13 +3,6 @@
 class We_The_People_API {
 
 	/**
-	 * Singleton instance of this class
-	 *
-	 * @var bool|We_The_People_API
-	 */
-	private static $_instance = false;
-
-	/**
 	 * The base URL used for making any API requests
 	 *
 	 * @var string
@@ -20,18 +13,6 @@ class We_The_People_API {
 	 * An empty constructor
 	 */
 	public function __construct() {}
-
-	/**
-	 * Gets the singleton instance of this class
-	 *
-	 * @return bool|We_The_People_API
-	 */
-	public static function instance() {
-		if( ! self::$_instance )
-			self::$_instance = new self();
-
-		return self::$_instance;
-	}
 
 	/**
 	 * Returns the JSON data for a specified petition.
@@ -147,5 +128,3 @@ class We_The_People_API {
 		return self::_retrieve_url( $url );
 	}
 }
-
-$we_the_people_api = new We_The_People_API();

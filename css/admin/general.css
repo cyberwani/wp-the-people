@@ -1,0 +1,15 @@
+.wrap {
+    min-width: 750px;
+}
+.wrap .us-seal {
+    background: url(../../images/us-seal.png) no-repeat;
+    height: 137px;
+    width: 130px;
+    margin: 0 20px 20px 0;
+}
+.wrap .logo {
+    background: url(../../images/we-the-people.png) no-repeat;
+    height: 84px;
+    width: 558px;
+    margin: 30px 0 0 0;
+}

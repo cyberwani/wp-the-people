@@ -1,0 +1,22 @@
+.wrap table.imported-petitions .progress-bar {
+    width: 100px;
+    background-color: #d9d9d9;
+    height: 15px;
+}
+.wrap table.imported-petitions .progress-bar .progress {
+    height: 15px;
+    background-color: #999;
+    width: 0px;
+}
+.wrap table.imported-petitions .progress-bar .progress:hover {
+    outline: 1px solid #666;
+}
+.wrap table.imported-petitions .progress-bar-text {
+    margin: 0 0 0 10px;
+}
+.wrap table.imported-petitions tr td {
+    padding: 10px;
+}
+.wrap table.imported-petitions tr td code {
+    font-size: 10px;
+}
