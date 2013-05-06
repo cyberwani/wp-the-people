@@ -28,9 +28,11 @@ This is just a compilation of the thoughts I've had while brainstorming about th
 * Shortcode can be tweaked with various attributes to change how it's embedded into the page
     * Can embed a chart of activities for a specific petition. Maybe even the ability to specify when the chart starts and/or ends, etc.
     * Can embed various tools that make it easy to include petitions into their website inline and such.
+    * Example 1: [petition type="geochart" height="300" width="500"][/petition]
+    * Example 2: [petition type="timeline"][/petition]
 * Modal to demonstrate history behind a Petition
     * Tabular interface that shows computed data sets on a graph
-    * Signature Trends
-    * Geographic
+    * Signature Trends over time
+    * Geographic Trends
     * Chronological Timeline of things
         * scrolling bar that allows you to horizontally scroll through the progress of this petition - similar to weather.com forecasts
