@@ -77,7 +77,7 @@ class We_The_People_Import {
 				<td style="text-align: center;"><?php echo $data[ 'signaturesNeeded' ]; ?></td>
 				<td style="text-align: center;"><?php echo $data[ 'status' ]; ?></td>
 				<td style="text-align: center;">
-					<a target="_blank" href="<?php echo $data[ 'url' ]; ?>">View Details</a> | <a href="/wp-admin/admin.php?page=we-the-people-import&step=2">Select Petition</a>
+					<a target="_blank" href="<?php echo $data[ 'url' ]; ?>">View Details</a> | <a href="<?php admin_url( 'admin.php' ); ?>?page=we-the-people-import&step=2&id=<?php echo urlencode( $data[ 'id' ] ); ?>">Select Petition</a>
 				</td>
 			</tr>
 			<?php
@@ -108,6 +108,18 @@ class We_The_People_Import {
 	 * Renders the import page for petitions
 	 */
 	public function render_import_page() {
+		if( ! isset( $_GET[ 'step' ] ) )
+			self::_render_step_1();
+		else if( '2' === $_GET[ 'step' ] )
+			self::_render_step_2();
+		else
+			self::_render_step_1();
+	}
+
+	/**
+	 * Handles rendering the HTML for step 1 - the search process
+	 */
+	private static function _render_step_1() {
 		?>
 		<div class="wrap">
 			<div class="alignleft us-seal"></div>
@@ -141,14 +153,48 @@ class We_The_People_Import {
 				</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td colspan="6"><p>Search for something using the box above.</p></td>
-					</tr>
+				<tr>
+					<td colspan="6"><p>Search for something using the box above.</p></td>
+				</tr>
 				</tbody>
 			</table>
 		</div>
 		<script type="text/javascript">WeThePeopleImport.start( '<?php echo admin_url( 'admin-ajax.php' ); ?>', '<?php echo wp_create_nonce( 'we-the-people-importer' ); ?>' );</script>
-	<?php
+		<?php
+	}
+
+	/**
+	 * Handles rendering the HTML for step 2 - the confirmation & data retrieval page
+	 */
+	private static function _render_step_2() {
+		if( ! isset( $_GET[ 'id' ] ) ) {
+			echo '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>';
+			exit;
+		}
+
+		$petition = We_The_People_API::get_petition( $_GET[ 'id' ] );
+
+		if( ! isset( $petition[ 'results' ] ) || count( $petition[ 'results' ] ) === 0 ) {
+			echo '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>';
+			exit;
+		}
+
+		$petition = $petition[ 'results' ][ 0 ];
+
+		?>
+		<div class="wrap">
+			<div class="alignleft us-seal"></div>
+			<div class="alignleft logo"></div>
+			<div class="clear"></div>
+			<h2>Data Retrieval</h2>
+			<p>Please confirm that this is the petition you were looking for. Once you have done so, we'll automatically synchronize your website with the latest petition data.</p>
+			<h3><?php echo $petition[ 'title' ]; ?></h3>
+			<?php echo wpautop( $petition[ 'body' ] ); ?>
+			<?php var_dump( $petition ); ?>
+			<a class="button-primary" href="javascript:void(0)">Import this Petition</a>
+			<a class="button" href="javascript:void(0);">Cancel</a>
+		</div>
+		<?php
 	}
 }
 
