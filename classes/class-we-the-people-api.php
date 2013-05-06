@@ -49,22 +49,22 @@ class We_The_People_API {
 
 	/**
 	 * Retrieves the specified result via cURL and JSON decodes it. If no data is found, false is returned.
-	 * todo: tweak this to use wp_remote_get() when we transition this code to a WP plugin
 	 *
 	 * @param string $url The URL we're retrieving
 	 * @return mixed
 	 */
 	protected static function _retrieve_url( $url = '' ) {
-		$ch = curl_init( $url );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $ch, CURLOPT_TIMEOUT, 12 );
-		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
-		$result = curl_exec( $ch );
-		curl_close( $ch );
+		$result = wp_remote_get( $url );
+		if( is_wp_error( $result ) )
+			return false;
 
-		$data = json_decode( $result, true );
+		if( 200 !== wp_remote_retrieve_response_code( $result ) )
+			return false;
+
+		$data = json_decode( wp_remote_retrieve_body( $result ), true );
+
 		if( is_null( $data ) )
-			$data = false;
+			return false;
 
 		return $data;
 	}
