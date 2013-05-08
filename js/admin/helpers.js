@@ -38,9 +38,30 @@
 			}
 		}
 
+		function _hasClass( element, classToSearchFor ) {
+			if( element.nodeType === 1 && (" " + element.className + " ").replace( /[\t\r\n]/g, " " ).indexOf( classToSearchFor ) >= 0 ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		function _killEvent( event ) {
+			event.returnValue = false;
+			event.cancelBubble = true;
+			if( event.stopPropagation ) {
+				event.stopPropagation();
+			}
+			if( event.preventDefault ) {
+				event.preventDefault();
+			}
+		}
+
 		return {
 			addEvent : _addEvent,
-			animateProgressBars : _animateProgressBars
+			animateProgressBars : _animateProgressBars,
+			hasClass : _hasClass,
+			killEvent : _killEvent
 		};
 	}
 

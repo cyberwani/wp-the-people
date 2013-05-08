@@ -7,6 +7,7 @@
 
 ## Todo
 * Images need to be run through an optimizer
+* Comment JavaScript
 
 ## Potential Ideas
 This is just a compilation of the thoughts I've had while brainstorming about the actual plugin itself.
