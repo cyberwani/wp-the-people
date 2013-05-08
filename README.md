@@ -2,6 +2,9 @@
 * Does the data for a petition change at any given point?
 * Would it be a wise idea to open commenting on a petition through Disqus? I feel like politics can get out of control very quickly. It would be an awesome idea to bring to the table though.
 
+## Todo
+* Images need to be run through an optimizer
+
 ## Potential Ideas
 This is just a compilation of the thoughts I've had while brainstorming about the actual plugin itself.
 
