@@ -1,3 +1,6 @@
+## General
+* They gave names like "Where the People" etc to their plugins last year... Maybe we can do "WP the People" or something?
+
 ## Questions
 * Does the data for a petition change at any given point?
 * Would it be a wise idea to open commenting on a petition through Disqus? I feel like politics can get out of control very quickly. It would be an awesome idea to bring to the table though.
