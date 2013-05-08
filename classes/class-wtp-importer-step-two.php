@@ -47,7 +47,7 @@ class WTP_Importer_Step_Two {
 		}
 
 		// enqueue the appropriate JS
-		wp_enqueue_script( 'wtp-import-step-two', plugins_url( '/../js/admin/import-step-two.js', __FILE__ ), array( 'jquery', 'wtp-helpers' ) );
+		wp_enqueue_script( 'wtp-import-step-two', WTP_Core::$plugins_url . '/js/admin/import-step-two.js', array( 'jquery', 'wtp-helpers' ) );
 
 		$petition = $petition[ 'results' ][ 0 ];
 

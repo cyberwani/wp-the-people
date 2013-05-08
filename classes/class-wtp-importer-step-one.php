@@ -94,7 +94,7 @@ class WTP_Importer_Step_One {
 
 	public static function render() {
 		// enqueue the appropriate JS
-		wp_enqueue_script( 'wtp-import-step-one', plugins_url( '/../js/admin/import-step-one.js', __FILE__ ), array( 'jquery', 'wtp-helpers' ) );
+		wp_enqueue_script( 'wtp-import-step-one', WTP_Core::$plugins_url . '/js/admin/importer-step-one.js', array( 'jquery', 'wtp-helpers' ) );
 
 		?>
 		<div class="wrap">
@@ -113,7 +113,7 @@ class WTP_Importer_Step_One {
 					<option value="closed">Closed</option>
 					<option value="responded">Responded</option>
 				</select>
-				<img class="alignleft search-loader" src="<?php echo plugins_url( '/../images/ajax-loader-fb.gif', __FILE__ ); ?>"/>
+				<img class="alignleft search-loader" src="<?php echo WTP_Core::$plugins_url . '/images/ajax-loader-fb.gif'; ?>"/>
 				<div class="clear"></div>
 			</div>
 			<h3>Search Results:</h3>

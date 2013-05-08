@@ -15,6 +15,13 @@ class WTP_Core {
 	public function __construct() {}
 
 	/**
+	 * Contains the base plugins URL so we don't hit that function 100 times
+	 *
+	 * @var string
+	 */
+	public static $plugins_url = '';
+
+	/**
 	 * Gets the singleton instance of this class and adds any actions/filters if need be
 	 *
 	 * @return bool|WTP_Core
@@ -23,6 +30,7 @@ class WTP_Core {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
 			self::_add_actions();
+			self::$plugins_url = plugins_url( '/..', __FILE__ );
 		}
 
 		return self::$_instance;
