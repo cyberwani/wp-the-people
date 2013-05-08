@@ -12,6 +12,7 @@
 
 			_cacheUI();
 			_bindEvents();
+			WTPHelpers.animateProgressBars( '.wrap .petition-preview .progress-bar .progress' );
 
 			INITIALIZED = true;
 		}

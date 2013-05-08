@@ -11,8 +11,36 @@
 			}
 		}
 
+		function _animateProgressBars( cssSelector ) {
+			var bars = document.querySelectorAll( cssSelector );
+			var currentTime = 0;
+			var interval = 100;
+			var callback;
+			var animationTime = 500;
+
+			if( bars.length === 0 ) {
+				return;
+			}
+
+			for( var i = 0, len = bars.length; i < len; i++ ) {
+				callback = ( function( i, bar ) {
+					return function() {
+						var width = bar.getAttribute( 'data-progress' );
+						if( width === null ) {
+							return;
+						}
+						width = width + '%';
+						$( bar ).animate( { width : width }, animationTime );
+					};
+				} )( i, bars[ i ] );
+				setTimeout( callback, currentTime );
+				currentTime += interval;
+			}
+		}
+
 		return {
-			addEvent : _addEvent
+			addEvent : _addEvent,
+			animateProgressBars : _animateProgressBars
 		};
 	}
 

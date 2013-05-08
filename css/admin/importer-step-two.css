@@ -1,29 +1,3 @@
-/** STEP ONE CSS **/
-
-.wrap .search-box .search-text {
-    margin: 11px 10px 0 0;
-}
-.wrap .search-box .search-input {
-    padding: 10px;
-    width: 500px;
-}
-.wrap .search-box .search-loader {
-    margin: 13px 0 0 10px;
-    display: none;
-}
-.wrap .search-box .search-status {
-    padding: 10px;
-    height: 3em;
-}
-.wrap .search-results td {
-    padding: 10px;
-}
-.wrap .search-results .search-highlight {
-    background-color: #ecdb5a;
-}
-
-/** STEP TWO CSS **/
-
 .wrap .petition-preview {
     padding: 10px;
     border-radius: 10px;
