@@ -1,3 +1,5 @@
+/** STEP ONE CSS **/
+
 .wrap .search-box .search-text {
     margin: 11px 10px 0 0;
 }
@@ -18,4 +20,40 @@
 }
 .wrap .search-results .search-highlight {
     background-color: #ecdb5a;
+}
+
+/** STEP TWO CSS **/
+
+.wrap .petition-preview {
+    padding: 10px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #bbb;
+    margin: 0 10px 20px 0;
+}
+.wrap .petition-preview h3 {
+    margin: 0 0 10px 0;
+}
+.wrap .petition-preview span {
+    display: block;
+}
+.wrap .petition-preview .progress-bar {
+    height: 20px;
+    width: 400px;
+    background-color: #d9d9d9;
+    position: relative;
+    margin: 0 10px 0 0;
+}
+.wrap .petition-preview .progress-bar .progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 0px;
+    background-color: #999;
+}
+.wrap .petition-preview .row span {
+    margin: 2px 10px 0 0;
 }

@@ -5,10 +5,6 @@
 ## Potential Ideas
 This is just a compilation of the thoughts I've had while brainstorming about the actual plugin itself.
 
-* Commenting
-    * Use Disqus for unique threads so other blogs can pull the same comment thread regardless of what site it's located on.
-* Rating Petitions - similar idea to Commenting
-* Analytics tracking system that allows us to track which websites are most popular for a variety of things: comments, signatures, ratings, etc. I'm not sure if this is even possible but it would be awesome to offer this to them.
 * Widget that pulls in imported petition
     * Widget should be customizable
         * Should have options to show body, title, button, etc.

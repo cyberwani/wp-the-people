@@ -1,8 +1,7 @@
 ( function( window, $, undefined ) {
 	var document = window.document;
 
-	function WeThePeopleDashboard() {
-		var SELF = this;
+	function WTPDashboard() {
 		var INITIALIZED = false;
 		var ANIMATION_TIME = 500;
 
@@ -46,6 +45,6 @@
 			'start' : _start
 		};
 	}
-	window.WeThePeopleDashboard = new WeThePeopleDashboard();
+	window.WTPDashboard = new WTPDashboard();
 
 } )( window, jQuery );

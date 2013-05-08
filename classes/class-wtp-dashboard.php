@@ -1,11 +1,14 @@
 <?php
 
-class We_The_People_Dashboard {
+// include our dependencies
+require_once( __DIR__ . '/class-wtp-core.php' );
+
+class WTP_Dashboard {
 
 	/**
 	 * The singleton instance of this class.
 	 *
-	 * @var bool|We_The_People_Dashboard
+	 * @var bool|WTP_Dashboard
 	 */
 	protected static $_instance = false;
 
@@ -17,39 +20,15 @@ class We_The_People_Dashboard {
 	/**
 	 * Gets the singleton instance of this class and adds any actions/filters if need be
 	 *
-	 * @return bool|We_The_People_Dashboard
+	 * @return bool|WTP_Dashboard
 	 */
 	public static function instance() {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
-			self::_add_actions();
+			WTP_Core::setup();
 		}
 
 		return self::$_instance;
-	}
-
-	/**
-	 * Adds any actions necessary for this class to work.
-	 */
-	private static function _add_actions() {
-		add_action( 'admin_enqueue_scripts', array( self::$_instance, 'enqueue_styles_and_scripts' ) );
-	}
-
-	/**
-	 * Selectively enqueues CSS & JS based on what page the user is currently visiting
-	 *
-	 * @param array $hook
-	 */
-	public function enqueue_styles_and_scripts( $hook = array() ) {
-		if( ! is_array( $hook ) )
-			$hook = array( $hook );
-
-		if( ! in_array( 'toplevel_page_we-the-people', $hook ) )
-			return;
-
-		wp_enqueue_style( 'we-the-people-general', plugins_url( '/../css/admin/general.css', __FILE__ ) );
-		wp_enqueue_style( 'we-the-people-dashboard', plugins_url( '/../css/admin/dashboard.css', __FILE__ ) );
-		wp_enqueue_script( 'we-the-people-dashboard', plugins_url( '/../js/admin/dashboard.js', __FILE__ ), array( 'jquery' ) );
 	}
 
 	/**
@@ -127,10 +106,10 @@ class We_The_People_Dashboard {
 				</tfoot>
 			</table>
 		</div>
-		<script type="text/javascript">WeThePeopleDashboard.start();</script>
+		<script type="text/javascript">WTPDashboard.start();</script>
 		<?php
 	}
 
 }
 
-We_The_People_Dashboard::instance();
+WTP_Dashboard::instance();

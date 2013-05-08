@@ -1,6 +1,6 @@
 <?php
 
-class We_The_People_API {
+class WTP_API {
 
 	/**
 	 * The base URL used for making any API requests

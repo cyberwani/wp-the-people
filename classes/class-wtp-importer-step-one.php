@@ -1,11 +1,16 @@
 <?php
 
-class We_The_People_Import {
+// include our dependencies
+require_once( __DIR__ . '/class-wtp-api.php' );
+require_once( __DIR__ . '/class-wtp-core.php' );
+require_once( __DIR__ . '/class-wtp-importer.php' );
+
+class WTP_Importer_Step_One {
 
 	/**
 	 * The singleton instance of this class.
 	 *
-	 * @var bool|We_The_People_Import
+	 * @var bool|WTP_Importer_Step_One
 	 */
 	protected static $_instance = false;
 
@@ -17,11 +22,12 @@ class We_The_People_Import {
 	/**
 	 * Gets the singleton instance of this class and adds any actions/filters if need be
 	 *
-	 * @return bool|We_The_People_Import
+	 * @return bool|WTP_Importer_Step_One
 	 */
 	public static function instance() {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
+			WTP_Core::setup();
 			self::_add_actions();
 		}
 
@@ -32,7 +38,6 @@ class We_The_People_Import {
 	 * Adds any actions necessary for this class to work.
 	 */
 	private static function _add_actions() {
-		add_action( 'admin_enqueue_scripts', array( self::$_instance, 'enqueue_styles_and_scripts' ) );
 		add_action( 'wp_ajax_we-the-people-import-search-api', array( self::$_instance, 'search_petitions' ) );
 	}
 
@@ -40,7 +45,7 @@ class We_The_People_Import {
 	 * Search the petitions with the pre-built API
 	 */
 	public function search_petitions() {
-		check_ajax_referer( 'we-the-people-importer' );
+		check_ajax_referer( 'wtp-importer-step-one' );
 		$search_text = $_REQUEST[ 'text' ];
 
 		if( $search_text === '' )
@@ -56,7 +61,7 @@ class We_The_People_Import {
 			$params[ 'status' ] = $_REQUEST[ 'status' ];
 		}
 
-		$petitions = We_The_People_API::get_petitions( $params );
+		$petitions = WTP_API::get_petitions( $params );
 
 		if( ! $petitions || ! isset( $petitions[ 'results' ] ) || count( $petitions[ 'results' ] ) === 0 )
 			die( '<tr><td colspan="6"><p>No results were found for "' . $search_text . '".</p></td></tr>' );
@@ -87,39 +92,10 @@ class We_The_People_Import {
 		die( $html );
 	}
 
-	/**
-	 * Selectively enqueues CSS & JS based on what page the user is currently visiting
-	 *
-	 * @param array $hook
-	 */
-	public function enqueue_styles_and_scripts( $hook = array() ) {
-		if( ! is_array( $hook ) )
-			$hook = array( $hook );
+	public static function render() {
+		// enqueue the appropriate JS
+		wp_enqueue_script( 'wtp-import-step-one', plugins_url( '/../js/admin/import-step-one.js', __FILE__ ), array( 'jquery', 'wtp-helpers' ) );
 
-		if( ! in_array( 'we-the-people_page_we-the-people-import', $hook ) )
-			return;
-
-		wp_enqueue_style( 'we-the-people-general', plugins_url( '/../css/admin/general.css', __FILE__ ) );
-		wp_enqueue_style( 'we-the-people-import', plugins_url( '/../css/admin/import.css', __FILE__ ) );
-		wp_enqueue_script( 'we-the-people-import', plugins_url( '/../js/admin/import.js', __FILE__ ), array( 'jquery', 'underscore' ) );
-	}
-
-	/**
-	 * Renders the import page for petitions
-	 */
-	public function render_import_page() {
-		if( ! isset( $_GET[ 'step' ] ) )
-			self::_render_step_1();
-		else if( '2' === $_GET[ 'step' ] )
-			self::_render_step_2();
-		else
-			self::_render_step_1();
-	}
-
-	/**
-	 * Handles rendering the HTML for step 1 - the search process
-	 */
-	private static function _render_step_1() {
 		?>
 		<div class="wrap">
 			<div class="alignleft us-seal"></div>
@@ -149,7 +125,7 @@ class We_The_People_Import {
 					<th style="width: 110px;">Total Signatures</th>
 					<th style="width: 120px;">Signatures Needed</th>
 					<th style="width: 80px; text-align: center;">Status</th>
-					<th style="width: 160px;"></th>
+					<th style="width: 170px;"></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -159,43 +135,13 @@ class We_The_People_Import {
 				</tbody>
 			</table>
 		</div>
-		<script type="text/javascript">WeThePeopleImport.start( '<?php echo admin_url( 'admin-ajax.php' ); ?>', '<?php echo wp_create_nonce( 'we-the-people-importer' ); ?>' );</script>
+		<script type="text/javascript">
+			WTPHelpers.ajaxURL = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
+			WTPHelpers.nonce = '<?php echo wp_create_nonce( 'wtp-importer-step-one' ); ?>';
+		</script>
 		<?php
 	}
 
-	/**
-	 * Handles rendering the HTML for step 2 - the confirmation & data retrieval page
-	 */
-	private static function _render_step_2() {
-		if( ! isset( $_GET[ 'id' ] ) ) {
-			echo '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>';
-			exit;
-		}
-
-		$petition = We_The_People_API::get_petition( $_GET[ 'id' ] );
-
-		if( ! isset( $petition[ 'results' ] ) || count( $petition[ 'results' ] ) === 0 ) {
-			echo '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>';
-			exit;
-		}
-
-		$petition = $petition[ 'results' ][ 0 ];
-
-		?>
-		<div class="wrap">
-			<div class="alignleft us-seal"></div>
-			<div class="alignleft logo"></div>
-			<div class="clear"></div>
-			<h2>Data Retrieval</h2>
-			<p>Please confirm that this is the petition you were looking for. Once you have done so, we'll automatically synchronize your website with the latest petition data.</p>
-			<h3><?php echo $petition[ 'title' ]; ?></h3>
-			<?php echo wpautop( $petition[ 'body' ] ); ?>
-			<?php var_dump( $petition ); ?>
-			<a class="button-primary" href="javascript:void(0)">Import this Petition</a>
-			<a class="button" href="javascript:void(0);">Cancel</a>
-		</div>
-		<?php
-	}
 }
 
-We_The_People_Import::instance();
+WTP_Importer_Step_One::instance();

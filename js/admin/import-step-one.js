@@ -1,35 +1,21 @@
 ( function( window, $, undefined ) {
 	var document = window.document;
 
-	function WeThePeopleImport() {
+	function WTPImportStepOne() {
 		var INITIALIZED = null;
 		var UI = {};
 		var AJAX = null;
-		var AJAX_URL = null;
-		var NONCE = null;
 		var SEARCH_TEXT = null;
 
-		function _start( ajaxURL, nonce ) {
+		function _start() {
 			if( INITIALIZED === true ) {
 				return;
 			}
-
-			AJAX_URL = ajaxURL;
-			NONCE = nonce;
 
 			_cacheUI();
 			_bindEvents();
 
 			INITIALIZED = true;
-		}
-
-		function _addEvent( event, element, callback ) {
-			if( window.addEventListener ) {
-				element.addEventListener( event, callback, false );
-			}
-			else {
-				element.attachEvent( 'on' + event, callback );
-			}
 		}
 
 		function _cacheUI() {
@@ -40,13 +26,17 @@
 		}
 
 		function _bindEvents() {
-			_addEvent( 'keyup', UI.searchInput, _searchWeThePeopleAPI );
-			_addEvent( 'change', UI.searchStatus, _searchWeThePeopleAPI );
+			WTPHelpers.addEvent( 'keyup', UI.searchInput, _searchWeThePeopleAPI );
+			WTPHelpers.addEvent( 'change', UI.searchStatus, _searchWeThePeopleAPI );
 		}
 
 		function _searchWeThePeopleAPI() {
-			var value = UI.searchInput.value;
+			var value = UI.searchInput.value.replace( /^\s+|\s+$/i, '' );
 			SEARCH_TEXT = value;
+
+			if( value === '' ) {
+				return;
+			}
 
 			if( AJAX !== null ) {
 				AJAX.abort();
@@ -56,11 +46,11 @@
 				dataType : 'html',
 				type : 'post',
 				success : _renderSearchResults,
-				url : AJAX_URL,
+				url : WTPHelpers.ajaxURL,
 				data : {
 					action : 'we-the-people-import-search-api',
-					text : value.replace( /^\s+|\s+$/i, '' ),
-					_ajax_nonce : NONCE,
+					text : value,
+					_ajax_nonce : WTPHelpers.nonce,
 					status : UI.searchStatus.value
 				}
 			} );
@@ -77,11 +67,9 @@
 			UI.searchResults.innerHTML = html;
 		}
 
-		return {
-			'start' : _start
-		};
+		_start();
 	}
 
-	window.WeThePeopleImport = new WeThePeopleImport();
+	window.WTPImportStepOne = new WTPImportStepOne();
 
 } )( window, jQuery );

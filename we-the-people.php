@@ -9,10 +9,16 @@ Author: 10up, Carl Danley, Chris Cochran
 Author URI: http://10up.com
 */
 
-// include the dependency classes
-include_once( __DIR__ . '/classes/class-we-the-people-api.php' );
-include_once( __DIR__ . '/classes/class-we-the-people-dashboard.php' );
-include_once( __DIR__ . '/classes/class-we-the-people-import.php' );
+// include the API class
+require_once( __DIR__ . '/classes/class-wtp-api.php' );
 
-// kick everything off with the base class
-include_once( __DIR__ . '/classes/class-we-the-people.php' );
+// include the base class
+require_once( __DIR__ . '/classes/class-wtp-core.php' );
+
+// include the dashboard code
+require_once( __DIR__ . '/classes/class-wtp-dashboard.php' );
+
+// include the importer code
+require_once( __DIR__ . '/classes/class-wtp-importer.php' );
+require_once( __DIR__ . '/classes/class-wtp-importer-step-one.php' );
+require_once( __DIR__ . '/classes/class-wtp-importer-step-two.php' );
