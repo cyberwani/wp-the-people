@@ -51,10 +51,15 @@ class WTP_Importer_Step_Two {
 
 		$petition = $petition[ 'results' ][ 0 ];
 
-		// make sure that this percentage does not exceed 100
-		$petition_progress = ( ( $petition[ 'signatureCount' ] / $petition[ 'signaturesNeeded' ] ) * 100 );
-		if( 100 < $petition_progress )
-			$petition_progress = 100;
+        // prevent division by zero
+        if( 1 <= $petition[ 'signaturesNeeded' ] ) {
+            // make sure that this percentage does not exceed 100
+            $petition_progress = ( ( $petition[ 'signatureCount' ] / $petition[ 'signaturesNeeded' ] ) * 100 );
+            if( 100 < $petition_progress )
+                $petition_progress = 100;
+        }
+        else
+            $petition_progress = 100;
 
 		?>
 		<div class="wrap">
