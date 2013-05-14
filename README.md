@@ -8,7 +8,7 @@
 * Comment JavaScript
 * Caching needs to be added to the server
 
-## Potential Ideas
+## Scope of Work
 This is just a compilation of the thoughts I've had while brainstorming about the actual plugin itself.
 
 * Import all petition data using the intermediary API we've built so we can enhance queries altogether.
