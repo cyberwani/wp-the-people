@@ -74,6 +74,7 @@ class WTP_Importer_Step_Two {
 					<h3><?php echo $petition[ 'title' ]; ?></h3>
 					<span>Created on: <?php echo date( 'F d, Y', $petition[ 'created' ] ); ?></span>
 					<span>Ends on: <?php echo date( 'F d, Y', $petition[ 'deadline' ] ); ?></span>
+					<span>Status: <i><?php echo ucwords( $petition[ 'status' ] ); ?></i></span>
 					<?php echo wpautop( $petition[ 'body' ] ); ?>
 					<div class="row">
 						<span class="alignleft">Progress:</span>

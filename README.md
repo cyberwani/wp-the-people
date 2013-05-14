@@ -2,6 +2,7 @@
 
 ## Questions
 * Does the data for a petition change at any given point?
+* How often is the data export file updated?
 
 ## Todo
 * Images need to be run through an optimizer
