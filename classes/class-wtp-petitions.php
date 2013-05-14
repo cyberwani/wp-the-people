@@ -52,11 +52,11 @@ class WTP_Petitions {
 			'not_found' =>  'No petitions found',
 			'not_found_in_trash' => 'No petitions found in Trash',
 			'parent_item_colon' => '',
-			'menu_name' => 'Petitions'
+			'menu_name' => 'Petitions',
 		);
 
 		$args = array(
-			'label' => $labels,
+			'labels' => $labels,
 			'public' => true,
 			'publicly_queryable' => true,
 			'show_ui' => true,
