@@ -1,11 +1,11 @@
 <?php
 
 /*
-Plugin Name: We The People
+Plugin Name: WP The People
 Plugin URI: http://10up.com
 Description: A plugin that uses the We The People API written for the White House hackathon
 Version: 1.0.0
-Author: 10up, Carl Danley, Chris Cochran
+Author: 10up, Carl Danley, Chris Cochran, Mo Jangda
 Author URI: http://10up.com
 */
 
