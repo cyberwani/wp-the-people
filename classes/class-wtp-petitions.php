@@ -40,6 +40,7 @@ class WTP_Petitions {
 	 */
 	public static function add_post_type() {
 		$args = array(
+			'label' => 'Petitions',
 			'public' => true,
 			'publicly_queryable' => true,
 			'show_ui' => true,
