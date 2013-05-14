@@ -71,9 +71,7 @@ class WTP_Petitions {
 		);
 
 		register_post_type( 'wtp-petitions', $args );
-
 	}
-
 }
 
 WTP_Petitions::instance();

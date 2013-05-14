@@ -47,7 +47,7 @@ class WTP_Core {
 	 * Sets up our menu pages
 	 */
 	public function add_menu_pages() {
-		add_menu_page( 'We The People', 'We The People', 'editor', 'we-the-people', array( 'WTP_Dashboard', 'render_dashboard' ), '', 65 );
+		add_menu_page( 'We The People', 'We The People', 'editor', 'we-the-people', array( 'WTP_Dashboard', 'render_dashboard' ), plugins_url( 'we-the-people/images/us-flag-menu-icon.png' ), 65 );
 		add_submenu_page( 'we-the-people', 'Import a Petition', 'Import a Petition', 'editor', 'we-the-people-import', array( 'WTP_Importer', 'render_import_page' ) );
 	}
 
