@@ -39,8 +39,24 @@ class WTP_Petitions {
 	 * Handles registering a new post type for use within the plugin
 	 */
 	public static function add_post_type() {
+		$labels = array(
+			'name' => 'Petitions',
+			'singular_name' => 'Petition',
+			'add_new' => 'Add New',
+			'add_new_item' => 'Add New Petition',
+			'edit_item' => 'Edit Petition',
+			'new_item' => 'New Petition',
+			'all_items' => 'All Petitions',
+			'view_item' => 'View Petitions',
+			'search_items' => 'Search Petitions',
+			'not_found' =>  'No petitions found',
+			'not_found_in_trash' => 'No petitions found in Trash',
+			'parent_item_colon' => '',
+			'menu_name' => 'Petitions'
+		);
+
 		$args = array(
-			'label' => 'Petitions',
+			'label' => $labels,
 			'public' => true,
 			'publicly_queryable' => true,
 			'show_ui' => true,
