@@ -12,6 +12,12 @@ Author URI: http://10up.com
 // include the API class
 require_once( __DIR__ . '/classes/class-wtp-api.php' );
 
+// include the Intermediary API
+require_once( __DIR__ . '/classes/class-wtp-intermediary-api.php' );
+
+// include our petition post type
+require_once( __DIR__ . '/classes/class-wtp-petitions.php' );
+
 // include the base class
 require_once( __DIR__ . '/classes/class-wtp-core.php' );
 
