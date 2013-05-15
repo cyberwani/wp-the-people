@@ -131,6 +131,7 @@ class WTP_Petitions {
 			'post_type' => self::$_post_type,
 			'post_content' => $data[ 'body' ],
 			'post_title' => $data[ 'title' ],
+			'post_status' => 'publish'
 		);
 
 		$id = wp_insert_post( $params );

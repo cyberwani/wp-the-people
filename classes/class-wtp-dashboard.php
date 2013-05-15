@@ -36,8 +36,15 @@ class WTP_Dashboard {
 	 */
 	public static function load() {
 		// we need to find out what we're loading so do a series of checks
-		if( isset( $_GET[ 'edit' ] ) )
-			WTP_Edit_Petition::load();
+		if( isset( $_GET[ 'remove' ] ) && 'true' === $_GET[ 'remove' ] ) {
+			$id = $_GET[ 'id' ];
+			$post = get_post( $id );
+
+			if( $post )
+				wp_delete_post( $id );
+
+			self::_render_dashboard();
+		}
 		else
 			self::_render_dashboard();
 	}
@@ -110,7 +117,6 @@ class WTP_Dashboard {
 			$id = get_the_ID();
 			$signatures_needed = intval( get_post_meta( $id, 'petition_signatures_needed', true ) );
 			$signature_count = intval( get_post_meta( $id, 'petition_signature_count', true ) );
-			$progress = 0;
 			if( $signature_count >= $signatures_needed )
 				$progress = 100;
 			else if( $signatures_needed === 0 )
@@ -130,7 +136,7 @@ class WTP_Dashboard {
 					<div class="alignleft progress-bar-text"><?php echo $signature_count; ?> / <?php echo $signatures_needed; ?></div>
 					<div class="clear"></div>
 				</td>
-				<td style="text-align: right;"><a href="<?php echo admin_url( 'post.php?post=' . $id . '&action=edit' ); ?>">Edit</a> | <a href="javascript:void(0);">Remove</a></td>
+				<td style="text-align: right;"><a href="<?php echo admin_url( 'post.php?post=' . $id . '&action=edit' ); ?>">Edit</a> | <a href="<?php menu_page_url( 'we-the-people' ); ?>&remove=true&id=<?php echo $id; ?>">Remove</a></td>
 			</tr>
 			<?php
 
