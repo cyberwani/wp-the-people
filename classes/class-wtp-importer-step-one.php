@@ -57,7 +57,8 @@ class WTP_Importer_Step_One {
 		);
 
 		// check for the status parameter
-		if( isset( $_REQUEST[ 'status' ] ) && $_REQUEST[ 'status' ] === 'open' || $_REQUEST[ 'status' ] === 'closed' || $_REQUEST[ 'status' ] === 'responded' ) {
+		$whitelisted_statuses = array( 'open', 'closed', 'pending response', 'responded' );
+		if( in_array( $_REQUEST[ 'status' ], $whitelisted_statuses ) ) {
 			$params[ 'status' ] = $_REQUEST[ 'status' ];
 		}
 
@@ -111,6 +112,7 @@ class WTP_Importer_Step_One {
 					<option value="any">Any</option>
 					<option value="open">Open</option>
 					<option value="closed">Closed</option>
+					<option value="pending response">Pending Response</option>
 					<option value="responded">Responded</option>
 				</select>
 				<img class="alignleft search-loader" src="<?php echo WTP_Core::$plugins_url . '/images/ajax-loader-fb.gif'; ?>"/>

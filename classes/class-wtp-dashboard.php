@@ -32,9 +32,20 @@ class WTP_Dashboard {
 	}
 
 	/**
+	 * Figures out which page to load and then renders it
+	 */
+	public static function load() {
+		// we need to find out what we're loading so do a series of checks
+		if( isset( $_GET[ 'edit' ] ) )
+			WTP_Edit_Petition::load();
+		else
+			self::_render_dashboard();
+	}
+
+	/**
 	 * Renders the dashboard for this plugin
 	 */
-	public function render_dashboard() {
+	private static function  _render_dashboard() {
 		?>
 		<div class="wrap">
 			<div class="alignleft us-seal"></div>
@@ -55,45 +66,7 @@ class WTP_Dashboard {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>Immediately address the issue of gun control through the introduction of legislation in Congress.</td>
-						<td><code>[petition id="24"][/petition]</code></td>
-						<td>January 13, 2013</td>
-						<td>
-							<div class="alignleft progress-bar">
-								<div class="progress" data-progress="78"></div>
-							</div>
-							<div class="alignleft progress-bar-text">50,127 / 79,842</div>
-							<div class="clear"></div>
-						</td>
-						<td style="text-align: right;"><a href="javascript:void(0);">Edit</a> | <a href="javascript:void(0);">Remove</a></td>
-					</tr>
-					<tr class="alternate">
-						<td>Teach public school children the truth: ANTI-RACIST IS A CODE WORD FOR ANTI-WHITE!</td>
-						<td><code>[petition id="36"][/petition]</code></td>
-						<td>May 31, 2013</td>
-						<td>
-							<div class="alignleft progress-bar">
-								<div class="progress" data-progress="1"></div>
-							</div>
-							<div class="alignleft progress-bar-text">197 / 99,803</div>
-							<div class="clear"></div>
-						</td>
-						<td style="text-align: right;"><a href="javascript:void(0);">Edit</a> | <a href="javascript:void(0);">Remove</a></td>
-					</tr>
-					<tr>
-						<td>Save the Postal Service-Save American Jobs</td>
-						<td><code>[petition id="109"][/petition]</code></td>
-						<td>May 24, 2013</td>
-						<td>
-							<div class="alignleft progress-bar">
-								<div class="progress" data-progress="19"></div>
-							</div>
-							<div class="alignleft progress-bar-text">16,238 / 83,762</div>
-							<div class="clear"></div>
-						</td>
-						<td style="text-align: right;"><a href="javascript:void(0);">Edit</a> | <a href="javascript:void(0);">Remove</a></td>
-					</tr>
+					<?php self::_render_petitions(); ?>
 				</tbody>
 				<tfoot>
 					<tr>
@@ -108,6 +81,60 @@ class WTP_Dashboard {
 		</div>
 		<script type="text/javascript">WTPDashboard.start();</script>
 		<?php
+	}
+
+	/**
+	 * Handles rendering each petition that was imported into the database
+	 */
+	private static function _render_petitions() {
+
+		// get all petitions now
+		$params = array(
+			'post_type' => WTP_Petitions::get_post_type()
+		);
+		$query = new WP_Query( $params );
+
+		if( ! $query->have_posts() ) {
+			?>
+			<tr>
+				<td colspan="5">No petitions have been imported yet.</td>
+			</tr>
+			<?php
+			return;
+		}
+
+		while( $query->have_posts() ) :
+			$query->the_post();
+
+			// get the extra information we need
+			$id = get_the_ID();
+			$signatures_needed = intval( get_post_meta( $id, 'petition_signatures_needed', true ) );
+			$signature_count = intval( get_post_meta( $id, 'petition_signature_count', true ) );
+			$progress = 0;
+			if( $signature_count >= $signatures_needed )
+				$progress = 100;
+			else if( $signatures_needed === 0 )
+				$progress = 100;
+			else
+				$progress = $signature_count / $signatures_needed;
+
+			?>
+			<tr>
+				<td><?php the_title(); ?></td>
+				<td><code>[petition id="<?php echo $id; ?>"/]</code></td>
+				<td>May 24, 2013</td>
+				<td>
+					<div class="alignleft progress-bar">
+						<div class="progress" data-progress="<?php echo $progress; ?>"></div>
+					</div>
+					<div class="alignleft progress-bar-text"><?php echo $signature_count; ?> / <?php echo $signatures_needed; ?></div>
+					<div class="clear"></div>
+				</td>
+				<td style="text-align: right;"><a href="<?php echo admin_url( 'post.php?post=' . $id . '&action=edit' ); ?>">Edit</a> | <a href="javascript:void(0);">Remove</a></td>
+			</tr>
+			<?php
+
+		endwhile;
 	}
 
 }

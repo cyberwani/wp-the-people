@@ -28,3 +28,4 @@ require_once( __DIR__ . '/classes/class-wtp-dashboard.php' );
 require_once( __DIR__ . '/classes/class-wtp-importer.php' );
 require_once( __DIR__ . '/classes/class-wtp-importer-step-one.php' );
 require_once( __DIR__ . '/classes/class-wtp-importer-step-two.php' );
+require_once( __DIR__ . '/classes/class-wtp-importer-step-three.php' );

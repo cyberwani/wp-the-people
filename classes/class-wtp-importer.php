@@ -35,6 +35,8 @@ class WTP_Importer {
 			WTP_Importer_Step_One::render();
 		else if( '2' === $_GET[ 'step' ] )
 			WTP_Importer_Step_Two::render();
+		else if( '3' === $_GET[ 'step' ] )
+			WTP_Importer_Step_Three::import( $_GET[ 'petition_id' ] );
 		else
 			WTP_Importer_Step_One::render();
 	}

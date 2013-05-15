@@ -27,25 +27,21 @@ class WTP_Importer_Step_Two {
 	 */
 	public static function instance() {
 		if( ! self::$_instance ) {
-			self::$_instance = new self();
 			WTP_Core::setup();
+			self::$_instance = new self();
 		}
 
 		return self::$_instance;
 	}
 
 	public static function render() {
-		if( ! isset( $_GET[ 'id' ] ) ) {
-			echo '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>';
-			exit;
-		}
+		if( ! isset( $_GET[ 'id' ] ) )
+			die( '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>' );
 
 		$petition = WTP_API::get_petition( $_GET[ 'id' ] );
 
-		if( ! isset( $petition[ 'results' ] ) || count( $petition[ 'results' ] ) === 0 ) {
-			echo '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>';
-			exit;
-		}
+		if( ! isset( $petition[ 'results' ] ) || count( $petition[ 'results' ] ) === 0 )
+			die( '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>' );
 
 		// enqueue the appropriate JS
 		wp_enqueue_script( 'wtp-import-step-two', WTP_Core::$plugins_url . '/js/admin/importer-step-two.js', array( 'jquery', 'wtp-helpers' ) );
@@ -85,14 +81,10 @@ class WTP_Importer_Step_Two {
 						<div class="clear"></div>
 					</div>
 				</div>
-				<p><b>Note: This process can take up to 5 minutes in length (depending on your internet connection).</b></p>
-				<a class="button-primary import-petition" href="javascript:void(0)">Import this Petition</a>
-				<a class="button cancel-import" href="javascript:void(0);">Cancel</a>
+				<a class="button-primary import-petition" href="<?php menu_page_url( 'we-the-people-import' ); ?>&step=3&petition_id=<?php echo $petition[ 'id' ]; ?>">Import this Petition</a>
+				<a class="button cancel-import" href="<?php menu_page_url( 'we-the-people-import' ); ?>">Cancel</a>
 			</div>
 		</div>
-		<script type="text/javascript">
-			WTPHelpers.baseURL = '<?php menu_page_url( 'we-the-people-import' ); ?>';
-		</script>
 		<?php
 	}
 
