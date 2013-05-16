@@ -43,8 +43,8 @@ class WTP_Core {
 		// register all of our scripts
 		self::_register_scripts();
 
-		add_action( 'admin_menu', array( self::$_instance, 'add_menu_pages' ) );
-		add_action( 'admin_enqueue_scripts', array( 'WTP_Core', 'enqueue_scripts' ) );
+		add_action( 'admin_menu', array( __CLASS__, 'add_menu_pages' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 
 		// pulse an action to continue core setup if needed
 		do_action( 'wtp-init' );
@@ -53,7 +53,7 @@ class WTP_Core {
 	/**
 	 * Sets up our menu pages
 	 */
-	public function add_menu_pages() {
+	public static function add_menu_pages() {
 		add_menu_page( 'We The People', 'We The People', 'editor', 'we-the-people', array( 'WTP_Dashboard', 'load' ), plugins_url( 'we-the-people/images/us-flag-menu-icon.png' ), 65 );
 		add_submenu_page( 'we-the-people', 'Import a Petition', 'Import a Petition', 'editor', 'we-the-people-import', array( 'WTP_Importer', 'render_import_page' ) );
 	}
@@ -69,7 +69,6 @@ class WTP_Core {
 		wp_register_style( 'wtp-general', $plugin_url . '/css/admin/general.css' );
 		wp_register_style( 'wtp-dashboard', $plugin_url . '/css/admin/dashboard.css', array( 'wtp-general' ) );
 		wp_register_style( 'wtp-menu-hider', $plugin_url . '/css/admin/menu-hider.css' );
-		wp_register_style( 'wtp-view-default', $plugin_url . '/css/wtp-view-default.css' );
 		wp_register_style( 'wtp-view-timeline', $plugin_url . '/css/wtp-view-timeline.css' );
 		wp_register_style( 'wtp-view-geographic', $plugin_url . '/css/wtp-view-geographic.css' );
 		wp_register_style( 'wtp-import-step-one', $plugin_url . '/css/admin/importer-step-one.css', array( 'wtp-general' ) );
@@ -92,11 +91,6 @@ class WTP_Core {
 
 		// enqueue the hider script
 		wp_enqueue_style( 'wtp-menu-hider' );
-
-		// enqueue the view stylesheets
-		wp_enqueue_style( 'wtp-view-default' );
-		wp_enqueue_style( 'wtp-view-timeline' );
-		wp_enqueue_style( 'wtp-view-geographic' );
 
 		// enqueue scripts for the dashboard
 		if( in_array( 'toplevel_page_we-the-people', $hook ) ) {

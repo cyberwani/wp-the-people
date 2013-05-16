@@ -37,13 +37,13 @@ class WTP_Importer_Step_One {
 	 * Adds any actions necessary for this class to work.
 	 */
 	private static function _add_actions() {
-		add_action( 'wp_ajax_we-the-people-import-search-api', array( self::$_instance, 'search_petitions' ) );
+		add_action( 'wp_ajax_we-the-people-import-search-api', array( __CLASS__, 'search_petitions' ) );
 	}
 
 	/**
 	 * Search the petitions with the pre-built API
 	 */
-	public function search_petitions() {
+	public static function search_petitions() {
 		check_ajax_referer( 'wtp-importer-step-one' );
 		$search_text = $_REQUEST[ 'text' ];
 

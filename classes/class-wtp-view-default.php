@@ -22,9 +22,27 @@ class WTP_View_Default {
 	public static function instance() {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
+			self::_add_actions();
 		}
 
 		return self::$_instance;
+	}
+
+	/**
+	 * Adds all of the necessary actions for this class to work
+	 */
+	private static function _add_actions() {
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+	}
+
+	/**
+	 * Enqueue all scripts needed by this class/view
+	 */
+	public static function enqueue_scripts() {
+		$plugin_url = plugins_url( '/..', __FILE__ );
+
+		// enqueue the stylesheet for this view
+		wp_enqueue_style( 'wtp-view-default', $plugin_url . '/css/wtp-view-default.css' );
 	}
 
 	/**

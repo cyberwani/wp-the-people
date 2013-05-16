@@ -56,16 +56,16 @@ class WTP_Petitions {
 	 * Adds any actions necessary for this class to work.
 	 */
 	private static function _add_actions() {
-		add_action( 'init', array( 'WTP_Petitions', 'add_post_type' ) );
-		add_action( 'add_meta_boxes', array( 'WTP_Petitions', 'add_meta_boxes' ) );
-		add_action( 'init', array( 'WTP_Petitions', 'register_shortcodes' ) );
+		add_action( 'init', array( __CLASS__, 'add_post_type' ) );
+		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
+		add_action( 'init', array( __CLASS__, 'register_shortcodes' ) );
 	}
 
 	/**
 	 * Handles adding all of the meta boxes for this custom post type
 	 */
 	public static function add_meta_boxes() {
-		add_meta_box( 'wtp-petition-status', 'Petition Status', array( 'WTP_Petitions', 'render_petition_status_meta' ), self::$_post_type, 'side', 'default' );
+		add_meta_box( 'wtp-petition-status', 'Petition Status', array( __CLASS__, 'render_petition_status_meta' ), self::$_post_type, 'side', 'default' );
 	}
 
 	/**
@@ -194,7 +194,7 @@ class WTP_Petitions {
 	 * Registers all shortcodes
 	 */
 	public static function register_shortcodes() {
-		add_shortcode( 'petition', array( 'WTP_Petitions' , 'interpret_shortcode' ) );
+		add_shortcode( 'petition', array( __CLASS__, 'interpret_shortcode' ) );
 	}
 
 	/**

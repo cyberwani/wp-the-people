@@ -29,30 +29,19 @@ class WTP_View_Geographic {
 	}
 
 	/**
-	 * Add all of the actions needed for this class to work correctly
-	 */
-	public static function _add_actions() {
-		add_action( 'enqueue_scripts', array( 'WTP_View_Geographic', 'enqueue_scripts' ) );
-	}
-
-	/**
-	 * Enqueue all scripts for this view to work
-	 */
-	public static function enqueue_scripts() {
-		self::enqueue_leaflet();
-	}
-
-	/**
-	 * Enqueues leaflet.js for geographic map functionality
+	 * Enqueue all scripts needed by this class/view
 	 *
-	 * Examples:
+	 * Examples of leaflet use:
 	 * view-source:http://leaflet.github.io/Leaflet.markercluster/example/marker-clustering-realworld.388.html
 	 * https://github.com/Leaflet/Leaflet.markercluster
 	 * view-source:http://maps.mixedbredie.net/leaflet/meals-cluster-label.html
 	 * https://github.com/kanarinka/We-The-People-Map
 	 */
-	public static function enqueue_leaflet() {
+	public static function enqueue_scripts() {
 		$plugin_url = plugins_url( '/..', __FILE__ );
+
+		// enqueue the stylesheet for this view
+		wp_enqueue_style( 'wtp-view-default', $plugin_url . '/css/wtp-view-default.css' );
 
 		// enqueue leaflet, the library
 		wp_enqueue_script( 'leaflet', 'http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js' );
@@ -62,6 +51,13 @@ class WTP_View_Geographic {
 		wp_enqueue_script( 'leaflet-markercluster', $plugin_url . '/js/leaflet/markercluster.js', array( 'leaflet' ) );
 		wp_enqueue_style( 'leaflet-markercluster', $plugin_url . '/css/leaflet/leaflet.markercluster.css', array( 'leaflet' ) );
 		wp_enqueue_style( 'leaflet-markercluster-default', $plugin_url . '/css/leaflet/leaflet.markercluster.default.css', array( 'leaflet-markercluster' ) );
+	}
+
+	/**
+	 * Add all of the actions needed for this class to work correctly
+	 */
+	private static function _add_actions() {
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
 	/**
