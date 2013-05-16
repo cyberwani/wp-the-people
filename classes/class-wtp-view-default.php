@@ -27,6 +27,13 @@ class WTP_View_Default {
 		return self::$_instance;
 	}
 
+	/**
+	 * Handles rendering this view
+	 */
+	public static function render() {
+		//
+	}
+
 }
 
 WTP_View_Default::instance();

@@ -27,6 +27,13 @@ class WTP_View_Timeline {
 		return self::$_instance;
 	}
 
+	/**
+	 * Handles rendering this view
+	 */
+	public static function render() {
+		//
+	}
+
 }
 
 WTP_View_Timeline::instance();

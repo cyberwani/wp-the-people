@@ -5,6 +5,11 @@ require_once( __DIR__ . '/class-wtp-api.php' );
 require_once( __DIR__ . '/class-wtp-intermediary-api.php' );
 require_once( __DIR__ . '/class-wtp-core.php' );
 
+// require the views for the shortcodes to work
+require_once( __DIR__ . '/class-wtp-view-default.php' );
+require_once( __DIR__ . '/class-wtp-view-geographic.php' );
+require_once( __DIR__ . '/class-wtp-view-timeline.php' );
+
 class WTP_Petitions {
 
 	/**
@@ -54,6 +59,7 @@ class WTP_Petitions {
 	private static function _add_actions() {
 		add_action( 'init', array( 'WTP_Petitions', 'add_post_type' ) );
 		add_action( 'add_meta_boxes', array( 'WTP_Petitions', 'add_meta_boxes' ) );
+		add_action( 'init', array( 'WTP_Petitions', 'register_shortcodes' ) );
 	}
 
 	/**
@@ -184,6 +190,47 @@ class WTP_Petitions {
 
 		return $id;
 	}
+
+	/**
+	 * Registers all shortcodes
+	 */
+	public static function register_shortcodes() {
+		add_shortcode( 'petition', array( 'WTP_Petitions' , 'interpret_shortcode' ) );
+	}
+
+	/**
+	 * Interprets the shortcode and all of the attributes passed to it and takes the appropriate action
+	 *
+	 * @param array $attrs
+	 */
+	public static function interpret_shortcode( $attrs = array() ) {
+		// check to see if the ID was specified
+		$id = false;
+		if( isset( $attrs[ 'id' ] ) )
+			$id = intval( $attrs[ 'id' ] );
+
+		if( ! $id )
+			return;
+
+		// check to see if type is available
+		$type = 'default';
+		$whitelisted_types = array( 'default', 'timeline', 'geographic' );
+		if( isset( $attrs[ 'type' ] ) && in_array( $attrs[ 'type' ], $whitelisted_types ) )
+			$type = $attrs[ 'type' ];
+
+		// get the post before rendering it
+		$post = get_post( $id );
+		if( ! $post )
+			return;
+
+		if( 'default' === $type )
+			WTP_View_Default::render( $post );
+		else if( 'timeline' === $type )
+			WTP_View_Timeline::render( $post );
+		else if( 'geographic' === $type )
+			WTP_View_Geographic::render( $post );
+	}
+
 }
 
 WTP_Petitions::instance();

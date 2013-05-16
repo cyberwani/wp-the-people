@@ -43,6 +43,13 @@ class WTP_View_Geographic {
 		wp_enqueue_style( 'leaflet-markercluster-default', $plugin_url . '/css/leaflet/leaflet.markercluster.default.css', array( 'leaflet-markercluster' ) );
 	}
 
+	/**
+	 * Handles rendering this view
+	 */
+	public static function render() {
+		//
+	}
+
 }
 
 WTP_View_Geographic::instance();
