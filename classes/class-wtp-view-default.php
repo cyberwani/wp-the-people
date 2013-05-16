@@ -29,8 +29,11 @@ class WTP_View_Default {
 
 	/**
 	 * Handles rendering this view
+	 *
+	 * @param bool|WP_Post $post
+	 * @param array $attrs
 	 */
-	public static function render() {
+	public static function render( $post = false, $attrs = array() ) {
 		//
 	}
 

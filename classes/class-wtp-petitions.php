@@ -224,11 +224,11 @@ class WTP_Petitions {
 			return;
 
 		if( 'default' === $type )
-			WTP_View_Default::render( $post );
+			WTP_View_Default::render( $post, $attrs );
 		else if( 'timeline' === $type )
-			WTP_View_Timeline::render( $post );
+			WTP_View_Timeline::render( $post, $attrs );
 		else if( 'geographic' === $type )
-			WTP_View_Geographic::render( $post );
+			WTP_View_Geographic::render( $post, $attrs );
 	}
 
 }
