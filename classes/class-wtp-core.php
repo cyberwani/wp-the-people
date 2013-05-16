@@ -85,6 +85,11 @@ class WTP_Core {
 		// enqueue the hider script
 		wp_enqueue_style( 'wtp-menu-hider', $plugin_url . '/css/admin/menu-hider.css' );
 
+		// enqueue the view stylesheets
+		wp_enqueue_style( 'wtp-view-default', $plugin_url . '/css/wtp-view-default.css' );
+		wp_enqueue_style( 'wtp-view-timeline', $plugin_url . '/css/wtp-view-timeline.css' );
+		wp_enqueue_style( 'wtp-view-geographic', $plugin_url . '/css/wtp-view-geographic.css' );
+
 		// enqueue leaflet
 		WTP_View_Geographic::enqueue_leaflet();
 
