@@ -8,6 +8,8 @@
 * Images need to be run through an optimizer
 * Comment JavaScript
 * Caching needs to be added to the server
+* Extend this plugin so things are hook-able
+* Review how easy it is to stylize the petition views
 
 ## Scope of Work
 This is just a compilation of the thoughts I've had while brainstorming about the actual plugin itself.
