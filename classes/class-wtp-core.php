@@ -1,5 +1,8 @@
 <?php
 
+// enqueue anything that this class uses as an external reference
+require_once( __DIR__ . '/class-wtp-view-geographic.php' );
+
 class WTP_Core {
 
 	/**
@@ -83,7 +86,7 @@ class WTP_Core {
 		wp_enqueue_style( 'wtp-menu-hider', $plugin_url . '/css/admin/menu-hider.css' );
 
 		// enqueue leaflet
-		self::enqueue_leaflet();
+		WTP_View_Geographic::enqueue_leaflet();
 
 		// enqueue scripts based on page being displayed
 		if( in_array( 'toplevel_page_we-the-people', $hook ) ) {
@@ -105,22 +108,6 @@ class WTP_Core {
 		}
 		else if( in_array( 'edit.php', $hook ) && WTP_Petitions::get_post_type() === get_query_var( 'post_type' ) )
 			die( '<script type="text/javascript">document.querySelector( "html" ).style.display = "none"; window.location.href = "' . menu_page_url( 'we-the-people' ) . '";</script>' );
-	}
-
-	/**
-	 * Enqueues leaflet.js for geographic map functionality
-	 */
-	public static function enqueue_leaflet() {
-		$plugin_url = plugins_url( '/..', __FILE__ );
-
-		// enqueue leaflet, the library
-		wp_enqueue_script( 'leaflet', 'http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js' );
-		wp_enqueue_style( 'leaflet', 'http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css' );
-
-		// enqueue leaflet markercluster
-		wp_enqueue_script( 'leaflet-markercluster', $plugin_url . '/js/leaflet/markercluster.js', array( 'leaflet' ) );
-		wp_enqueue_style( 'leaflet-markercluster', $plugin_url . '/css/leaflet/leaflet.markercluster.css', array( 'leaflet' ) );
-		wp_enqueue_style( 'leaflet-markercluster-default', $plugin_url . '/css/leaflet/leaflet.markercluster.default.css', array( 'leaflet-markercluster' ) );
 	}
 }
 

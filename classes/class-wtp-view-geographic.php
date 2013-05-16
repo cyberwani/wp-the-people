@@ -27,6 +27,22 @@ class WTP_View_Geographic {
 		return self::$_instance;
 	}
 
+	/**
+	 * Enqueues leaflet.js for geographic map functionality
+	 */
+	public static function enqueue_leaflet() {
+		$plugin_url = plugins_url( '/..', __FILE__ );
+
+		// enqueue leaflet, the library
+		wp_enqueue_script( 'leaflet', 'http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js' );
+		wp_enqueue_style( 'leaflet', 'http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css' );
+
+		// enqueue leaflet markercluster
+		wp_enqueue_script( 'leaflet-markercluster', $plugin_url . '/js/leaflet/markercluster.js', array( 'leaflet' ) );
+		wp_enqueue_style( 'leaflet-markercluster', $plugin_url . '/css/leaflet/leaflet.markercluster.css', array( 'leaflet' ) );
+		wp_enqueue_style( 'leaflet-markercluster-default', $plugin_url . '/css/leaflet/leaflet.markercluster.default.css', array( 'leaflet-markercluster' ) );
+	}
+
 }
 
 WTP_View_Geographic::instance();
