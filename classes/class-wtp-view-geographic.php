@@ -22,9 +22,24 @@ class WTP_View_Geographic {
 	public static function instance() {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
+			self::_add_actions();
 		}
 
 		return self::$_instance;
+	}
+
+	/**
+	 * Add all of the actions needed for this class to work correctly
+	 */
+	public static function _add_actions() {
+		add_action( 'enqueue_scripts', array( 'WTP_View_Geographic', 'enqueue_scripts' ) );
+	}
+
+	/**
+	 * Enqueue all scripts for this view to work
+	 */
+	public static function enqueue_scripts() {
+		self::enqueue_leaflet();
 	}
 
 	/**

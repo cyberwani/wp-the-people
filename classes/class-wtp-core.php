@@ -1,8 +1,5 @@
 <?php
 
-// enqueue anything that this class uses as an external reference
-require_once( __DIR__ . '/class-wtp-view-geographic.php' );
-
 class WTP_Core {
 
 	/**
@@ -23,11 +20,6 @@ class WTP_Core {
 	 * @var string
 	 */
 	public static $plugins_url = '';
-
-	/**
-	 * @var bool Indicates whether or not the Core of this plugin has been previously setup or not
-	 */
-	public static $_has_been_setup = false;
 
 	/**
 	 * Gets the singleton instance of this class and adds any actions/filters if need be
@@ -63,12 +55,34 @@ class WTP_Core {
 	 * Sets up the Core for WTP based on the page
 	 */
 	public static function setup() {
-		if( self::$_has_been_setup )
-			return;
-
+		self::_register_scripts();
 		add_action( 'admin_enqueue_scripts', array( 'WTP_Core', 'enqueue_scripts' ) );
 
-		self::$_has_been_setup = true;
+		// pulse an action to continue core setup if needed
+		do_action( 'wtp-init' );
+	}
+
+	/**
+	 * Registers all scripts used by this plugin
+	 */
+	private static function _register_scripts() {
+		$plugin_url = plugins_url( '/..', __FILE__ );
+
+		// styles
+		wp_register_style( 'wtp-edit', $plugin_url . '/css/admin/edit.css', array( 'wtp-general' ) );
+		wp_register_style( 'wtp-general', $plugin_url . '/css/admin/general.css' );
+		wp_register_style( 'wtp-dashboard', $plugin_url . '/css/admin/dashboard.css', array( 'wtp-general' ) );
+		wp_register_style( 'wtp-menu-hider', $plugin_url . '/css/admin/menu-hider.css' );
+		wp_register_style( 'wtp-view-default', $plugin_url . '/css/wtp-view-default.css' );
+		wp_register_style( 'wtp-view-timeline', $plugin_url . '/css/wtp-view-timeline.css' );
+		wp_register_style( 'wtp-view-geographic', $plugin_url . '/css/wtp-view-geographic.css' );
+		wp_register_style( 'wtp-import-step-one', $plugin_url . '/css/admin/importer-step-one.css', array( 'wtp-general' ) );
+		wp_register_style( 'wtp-import-step-two', $plugin_url . '/css/admin/importer-step-two.css', array( 'wtp-general' ) );
+		wp_register_style( 'wtp-petition-editor', $plugin_url . '/css/admin/edit.css' );
+
+		// scripts
+		wp_register_script( 'wtp-helpers', $plugin_url . '/js/admin/helpers.js', array( 'jquery' ) );
+		wp_register_script( 'wtp-dashboard', $plugin_url . '/js/admin/dashboard.js', array( 'jquery', 'wtp-helpers' ) );
 	}
 
 	/**
@@ -80,37 +94,38 @@ class WTP_Core {
 		if( ! is_array( $hook ) )
 			$hook = array( $hook );
 
-		$plugin_url = plugins_url( '/..', __FILE__ );
-
 		// enqueue the hider script
-		wp_enqueue_style( 'wtp-menu-hider', $plugin_url . '/css/admin/menu-hider.css' );
+		wp_enqueue_style( 'wtp-menu-hider' );
 
 		// enqueue the view stylesheets
-		wp_enqueue_style( 'wtp-view-default', $plugin_url . '/css/wtp-view-default.css' );
-		wp_enqueue_style( 'wtp-view-timeline', $plugin_url . '/css/wtp-view-timeline.css' );
-		wp_enqueue_style( 'wtp-view-geographic', $plugin_url . '/css/wtp-view-geographic.css' );
+		wp_enqueue_style( 'wtp-view-default' );
+		wp_enqueue_style( 'wtp-view-timeline' );
+		wp_enqueue_style( 'wtp-view-geographic' );
 
-		// enqueue leaflet
-		WTP_View_Geographic::enqueue_leaflet();
-
-		// enqueue scripts based on page being displayed
+		// enqueue scripts for the dashboard
 		if( in_array( 'toplevel_page_we-the-people', $hook ) ) {
-			wp_enqueue_style( 'wtp-general', $plugin_url . '/css/admin/general.css' );
-			wp_enqueue_style( 'wtp-dashboard', $plugin_url . '/css/admin/dashboard.css', array( 'wtp-general' ) );
-			wp_enqueue_style( 'wtp-edit', $plugin_url . '/css/admin/edit.css', array( 'wtp-general' ) );
-			wp_enqueue_script( 'wtp-helpers', $plugin_url . '/js/admin/helpers.js', array( 'jquery' ) );
-			wp_enqueue_script( 'wtp-dashboard', $plugin_url . '/js/admin/dashboard.js', array( 'jquery', 'wtp-helpers' ) );
+			wp_enqueue_style( 'wtp-general' );
+			wp_enqueue_style( 'wtp-dashboard' );
+			wp_enqueue_style( 'wtp-edit' );
+			wp_enqueue_script( 'wtp-helpers' );
+			wp_enqueue_script( 'wtp-dashboard' );
 		}
+
+		// enqueue styles needed for import screen
 		else if( in_array( 'we-the-people_page_we-the-people-import', $hook ) ) {
-			wp_enqueue_style( 'wtp-general', $plugin_url . '/css/admin/general.css' );
-			wp_enqueue_style( 'wtp-import-step-one', $plugin_url . '/css/admin/importer-step-one.css', array( 'wtp-general' ) );
-			wp_enqueue_style( 'wtp-import-step-two', $plugin_url . '/css/admin/importer-step-two.css', array( 'wtp-general' ) );
-			wp_enqueue_script( 'wtp-helpers', $plugin_url . '/js/admin/helpers.js', array( 'jquery' ) );
+			wp_enqueue_style( 'wtp-general' );
+			wp_enqueue_style( 'wtp-import-step-one' );
+			wp_enqueue_style( 'wtp-import-step-two' );
+			wp_enqueue_script( 'wtp-helpers' );
 		}
+
+		// handle masking the edit post screen as part of WTP
 		else if( in_array( 'post.php', $hook ) && WTP_Petitions::get_post_type() === get_post_type() ) {
-			wp_enqueue_script( 'wtp-helpers', $plugin_url . '/js/admin/helpers.js', array( 'jquery' ) );
-			wp_enqueue_style( 'wtp-petition-editor', $plugin_url . '/css/admin/edit.css' );
+			wp_enqueue_script( 'wtp-helpers' );
+			wp_enqueue_style( 'wtp-petition-editor' );
 		}
+
+		// handle redirects if the user ends up going to the edit table screen
 		else if( in_array( 'edit.php', $hook ) && WTP_Petitions::get_post_type() === get_query_var( 'post_type' ) )
 			die( '<script type="text/javascript">document.querySelector( "html" ).style.display = "none"; window.location.href = "' . menu_page_url( 'we-the-people' ) . '";</script>' );
 	}
