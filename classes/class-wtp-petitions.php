@@ -37,7 +37,6 @@ class WTP_Petitions {
 	public static function instance() {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
-			WTP_Core::setup();
 			self::_add_actions();
 		}
 

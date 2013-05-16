@@ -25,7 +25,6 @@ class WTP_Dashboard {
 	public static function instance() {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
-			WTP_Core::setup();
 		}
 
 		return self::$_instance;

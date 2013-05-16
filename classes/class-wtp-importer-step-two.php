@@ -27,7 +27,6 @@ class WTP_Importer_Step_Two {
 	 */
 	public static function instance() {
 		if( ! self::$_instance ) {
-			WTP_Core::setup();
 			self::$_instance = new self();
 		}
 

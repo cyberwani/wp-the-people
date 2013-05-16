@@ -40,7 +40,14 @@ class WTP_Core {
 	 * Adds any actions necessary for this class to work.
 	 */
 	private static function _add_actions() {
+		// register all of our scripts
+		self::_register_scripts();
+
 		add_action( 'admin_menu', array( self::$_instance, 'add_menu_pages' ) );
+		add_action( 'admin_enqueue_scripts', array( 'WTP_Core', 'enqueue_scripts' ) );
+
+		// pulse an action to continue core setup if needed
+		do_action( 'wtp-init' );
 	}
 
 	/**
@@ -49,17 +56,6 @@ class WTP_Core {
 	public function add_menu_pages() {
 		add_menu_page( 'We The People', 'We The People', 'editor', 'we-the-people', array( 'WTP_Dashboard', 'load' ), plugins_url( 'we-the-people/images/us-flag-menu-icon.png' ), 65 );
 		add_submenu_page( 'we-the-people', 'Import a Petition', 'Import a Petition', 'editor', 'we-the-people-import', array( 'WTP_Importer', 'render_import_page' ) );
-	}
-
-	/**
-	 * Sets up the Core for WTP based on the page
-	 */
-	public static function setup() {
-		self::_register_scripts();
-		add_action( 'admin_enqueue_scripts', array( 'WTP_Core', 'enqueue_scripts' ) );
-
-		// pulse an action to continue core setup if needed
-		do_action( 'wtp-init' );
 	}
 
 	/**

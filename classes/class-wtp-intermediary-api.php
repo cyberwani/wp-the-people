@@ -2,9 +2,6 @@
 
 class WTP_Intermediary_API {
 
-
-
-
 	/**
 	 * The base URL used for making any API requests
 	 *
