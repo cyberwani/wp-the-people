@@ -201,14 +201,14 @@ class WTP_Petitions {
 	/**
 	 * Interprets the shortcode and all of the attributes passed to it and takes the appropriate action
 	 *
-	 * @param array $attrs
+	 * @param array $attributes
 	 * @return string
 	 */
-	public static function interpret_shortcode( $attrs = array() ) {
+	public static function interpret_shortcode( $attributes = array() ) {
 		// check to see if the ID was specified
 		$id = false;
-		if( isset( $attrs[ 'id' ] ) )
-			$id = intval( $attrs[ 'id' ] );
+		if( isset( $attributes[ 'id' ] ) )
+			$id = intval( $attributes[ 'id' ] );
 
 		if( ! $id )
 			return '';
@@ -216,8 +216,8 @@ class WTP_Petitions {
 		// check to see if type is available
 		$type = 'default';
 		$whitelisted_types = array( 'default', 'timeline', 'geographic' );
-		if( isset( $attrs[ 'type' ] ) && in_array( $attrs[ 'type' ], $whitelisted_types ) )
-			$type = $attrs[ 'type' ];
+		if( isset( $attributes[ 'type' ] ) && in_array( $attributes[ 'type' ], $whitelisted_types ) )
+			$type = $attributes[ 'type' ];
 
 		// get the post before rendering it
 		$post = get_post( $id );
@@ -225,11 +225,11 @@ class WTP_Petitions {
 			return '';
 
 		if( 'default' === $type )
-			return WTP_View_Default::render( $post, $attrs );
+			return WTP_View_Default::render( $post, $attributes );
 		else if( 'timeline' === $type )
-			return WTP_View_Timeline::render( $post, $attrs );
+			return WTP_View_Timeline::render( $post, $attributes );
 		else if( 'geographic' === $type )
-			return WTP_View_Geographic::render( $post, $attrs );
+			return WTP_View_Geographic::render( $post, $attributes );
 		else
 			return '';
 	}

@@ -30,11 +30,11 @@ class WTP_View_Timeline {
 	/**
 	 * Handles rendering this view
 	 *
-	 * @param bool $post
-	 * @param array $attrs
+	 * @param bool|WP_Post $post
+	 * @param array $attributes
 	 * @return string
 	 */
-	public static function render( $post = false, $attrs = array() ) {
+	public static function render( $post = false, $attributes = array() ) {
 		return '';
 	}
 
