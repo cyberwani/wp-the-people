@@ -46,11 +46,12 @@ class WTP_View_Geographic {
 	/**
 	 * Handles rendering this view
 	 *
-	 * @param bool|WP_Post $post
+	 * @param bool $post
 	 * @param array $attrs
+	 * @return string
 	 */
 	public static function render( $post = false, $attrs = array() ) {
-		//
+		return '';
 	}
 
 }

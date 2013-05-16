@@ -202,6 +202,7 @@ class WTP_Petitions {
 	 * Interprets the shortcode and all of the attributes passed to it and takes the appropriate action
 	 *
 	 * @param array $attrs
+	 * @return string
 	 */
 	public static function interpret_shortcode( $attrs = array() ) {
 		// check to see if the ID was specified
@@ -210,7 +211,7 @@ class WTP_Petitions {
 			$id = intval( $attrs[ 'id' ] );
 
 		if( ! $id )
-			return;
+			return '';
 
 		// check to see if type is available
 		$type = 'default';
@@ -221,14 +222,16 @@ class WTP_Petitions {
 		// get the post before rendering it
 		$post = get_post( $id );
 		if( ! $post )
-			return;
+			return '';
 
 		if( 'default' === $type )
-			WTP_View_Default::render( $post, $attrs );
+			return WTP_View_Default::render( $post, $attrs );
 		else if( 'timeline' === $type )
-			WTP_View_Timeline::render( $post, $attrs );
+			return WTP_View_Timeline::render( $post, $attrs );
 		else if( 'geographic' === $type )
-			WTP_View_Geographic::render( $post, $attrs );
+			return WTP_View_Geographic::render( $post, $attrs );
+		else
+			return '';
 	}
 
 }
