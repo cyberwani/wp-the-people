@@ -5,7 +5,7 @@ Plugin Name: WP The People
 Plugin URI: http://10up.com
 Description: A plugin that uses the We The People API written for the White House hackathon
 Version: 1.0.0
-Author: 10up, Carl Danley, Chris Cochran, Mo Jangda
+Author: 10up, Carl Danley
 Author URI: http://10up.com
 */
 
@@ -29,3 +29,8 @@ require_once( __DIR__ . '/classes/class-wtp-importer.php' );
 require_once( __DIR__ . '/classes/class-wtp-importer-step-one.php' );
 require_once( __DIR__ . '/classes/class-wtp-importer-step-two.php' );
 require_once( __DIR__ . '/classes/class-wtp-importer-step-three.php' );
+
+// add all of our views
+require_once( __DIR__ . '/classes/class-wtp-view-default.php' );
+require_once( __DIR__ . '/classes/class-wtp-view-geographic.php' );
+require_once( __DIR__ . '/classes/class-wtp-view-timeline.php' );
