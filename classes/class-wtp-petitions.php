@@ -69,7 +69,41 @@ class WTP_Petitions {
 	public static function render_petition_status_meta() {
 		$plugin_url = plugins_url( '/..', __FILE__ );
 
+		$id = get_the_ID();
+		$status = get_post_meta( $id, 'petition_status', true );
+		$signatures_needed = intval( get_post_meta( $id, 'petition_signatures_needed', true ) );
+		$signature_count = intval( get_post_meta( $id, 'petition_signature_count', true ) );
+
+		if( $signature_count >= $signatures_needed )
+			$progress = 100;
+		else if( $signatures_needed === 0 )
+			$progress = 100;
+		else
+			$progress = $signature_count / $signatures_needed;
+
 		?>
+		<div class="petition-status">
+			<div class="misc-pub-section">
+				<span>Status:</span>
+				<span><?php echo ucwords( $status ); ?></span>
+			</div>
+			<div class="misc-pub-section">
+				<span class="alignleft progress-text">Progress:</span>
+				<div class="progress-bar">
+					<div class="progress" data-progress="<?php echo $progress; ?>"></div>
+					<div class="text"><?php echo $signature_count; ?> / <?php echo $signatures_needed; ?></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="misc-pub-section">
+				<span>Signatures Needed:</span>
+				<span><?php echo $signatures_needed; ?></span>
+			</div>
+			<div class="misc-pub-section">
+				<span>Signature Count:</span>
+				<span><?php echo $signature_count; ?></span>
+			</div>
+		</div>
 		<script type="text/javascript" src="<?php echo $plugin_url; ?>/js/admin/petition-status.js"></script>
 		<?php
 	}

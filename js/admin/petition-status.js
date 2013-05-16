@@ -8,6 +8,11 @@
 
 		function _start() {
 			_shopWTPMenu();
+
+			// defer this until after DOM is loaded - don't want anything choppy
+			$( document ).ready( function() {
+				WTPHelpers.animateProgressBars( '.petition-status .progress-bar .progress' );
+			} );
 		}
 
 		function _shopWTPMenu() {
