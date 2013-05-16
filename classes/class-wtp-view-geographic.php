@@ -29,6 +29,12 @@ class WTP_View_Geographic {
 
 	/**
 	 * Enqueues leaflet.js for geographic map functionality
+	 *
+	 * Examples:
+	 * view-source:http://leaflet.github.io/Leaflet.markercluster/example/marker-clustering-realworld.388.html
+	 * https://github.com/Leaflet/Leaflet.markercluster
+	 * view-source:http://maps.mixedbredie.net/leaflet/meals-cluster-label.html
+	 * https://github.com/kanarinka/We-The-People-Map
 	 */
 	public static function enqueue_leaflet() {
 		$plugin_url = plugins_url( '/..', __FILE__ );
