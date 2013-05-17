@@ -41,7 +41,7 @@ class WTP_View_Geographic {
 		$plugin_url = plugins_url( '/..', __FILE__ );
 
 		// enqueue the stylesheet for this view
-		wp_enqueue_style( 'wtp-view-default', $plugin_url . '/css/wtp-view-default.css' );
+		wp_enqueue_style( 'wtp-view-geographic', $plugin_url . '/css/wtp-view-geographic.css' );
 
 		// enqueue leaflet, the library
 		wp_enqueue_script( 'leaflet', 'http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js' );

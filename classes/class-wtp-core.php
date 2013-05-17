@@ -60,8 +60,7 @@ class WTP_Core {
 	 * Registers all scripts used by this plugin
 	 */
 	private static function _register_scripts() {
-		wp_register_style( 'wtp-view-timeline', self::$plugins_url . '/css/wtp-view-timeline.css' );
-		wp_register_style( 'wtp-view-geographic', self::$plugins_url . '/css/wtp-view-geographic.css' );
+
 	}
 
 	/**
