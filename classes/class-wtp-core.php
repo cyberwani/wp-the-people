@@ -84,6 +84,7 @@ class WTP_Core {
 
 		// handle masking the edit post screen as part of WTP
 		if( in_array( 'post.php', $hook ) && WTP_Petitions::get_post_type() === get_post_type() ) {
+			wp_enqueue_script( 'wtp-helpers', self::$plugins_url . '/js/admin/helpers.js', array( 'jquery' ) );
 			wp_enqueue_style( 'wtp-petition-editor', self::$plugins_url . '/css/admin/edit.css' );
 		}
 
