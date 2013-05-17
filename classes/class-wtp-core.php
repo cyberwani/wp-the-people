@@ -57,13 +57,6 @@ class WTP_Core {
 	}
 
 	/**
-	 * Registers all scripts used by this plugin
-	 */
-	private static function _register_scripts() {
-
-	}
-
-	/**
 	 * Selectively enqueues the correct scripts for the correct pages
 	 *
 	 * @param array $hook
