@@ -1,5 +1,9 @@
 <?php
 
+// require the dashboard and importer classes
+require_once( __DIR__ . '/class-wtp-dashboard.php' );
+require_once( __DIR__ . '/class-wtp-importer.php' );
+
 class WTP_Core {
 
 	/**
@@ -40,14 +44,8 @@ class WTP_Core {
 	 * Adds any actions necessary for this class to work.
 	 */
 	private static function _add_actions() {
-		// register all of our scripts
-		self::_register_scripts();
-
 		add_action( 'admin_menu', array( __CLASS__, 'add_menu_pages' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
-
-		// pulse an action to continue core setup if needed
-		do_action( 'wtp-init' );
 	}
 
 	/**
@@ -62,22 +60,8 @@ class WTP_Core {
 	 * Registers all scripts used by this plugin
 	 */
 	private static function _register_scripts() {
-		$plugin_url = plugins_url( '/..', __FILE__ );
-
-		// styles
-		wp_register_style( 'wtp-edit', $plugin_url . '/css/admin/edit.css', array( 'wtp-general' ) );
-		wp_register_style( 'wtp-general', $plugin_url . '/css/admin/general.css' );
-		wp_register_style( 'wtp-dashboard', $plugin_url . '/css/admin/dashboard.css', array( 'wtp-general' ) );
-		wp_register_style( 'wtp-menu-hider', $plugin_url . '/css/admin/menu-hider.css' );
-		wp_register_style( 'wtp-view-timeline', $plugin_url . '/css/wtp-view-timeline.css' );
-		wp_register_style( 'wtp-view-geographic', $plugin_url . '/css/wtp-view-geographic.css' );
-		wp_register_style( 'wtp-import-step-one', $plugin_url . '/css/admin/importer-step-one.css', array( 'wtp-general' ) );
-		wp_register_style( 'wtp-import-step-two', $plugin_url . '/css/admin/importer-step-two.css', array( 'wtp-general' ) );
-		wp_register_style( 'wtp-petition-editor', $plugin_url . '/css/admin/edit.css' );
-
-		// scripts
-		wp_register_script( 'wtp-helpers', $plugin_url . '/js/admin/helpers.js', array( 'jquery' ) );
-		wp_register_script( 'wtp-dashboard', $plugin_url . '/js/admin/dashboard.js', array( 'jquery', 'wtp-helpers' ) );
+		wp_register_style( 'wtp-view-timeline', self::$plugins_url . '/css/wtp-view-timeline.css' );
+		wp_register_style( 'wtp-view-geographic', self::$plugins_url . '/css/wtp-view-geographic.css' );
 	}
 
 	/**
@@ -90,29 +74,25 @@ class WTP_Core {
 			$hook = array( $hook );
 
 		// enqueue the hider script
-		wp_enqueue_style( 'wtp-menu-hider' );
+		wp_enqueue_style( 'wtp-menu-hider', self::$plugins_url . '/css/admin/menu-hider.css' );
 
-		// enqueue scripts for the dashboard
-		if( in_array( 'toplevel_page_we-the-people', $hook ) ) {
-			wp_enqueue_style( 'wtp-general' );
-			wp_enqueue_style( 'wtp-dashboard' );
-			wp_enqueue_style( 'wtp-edit' );
-			wp_enqueue_script( 'wtp-helpers' );
-			wp_enqueue_script( 'wtp-dashboard' );
-		}
+		// enqueue the helpers on and general stylesheets on all relevant admin screens
+		$admin_screens = array( 'toplevel_page_we-the-people', 'we-the-people_page_we-the-people-import' );
+		$enqueue_general_scripts = false;
+		foreach( $admin_screens as $screen )
+			if( in_array( $screen, $hook ) ) {
+				$enqueue_general_scripts = true;
+				break;
+			}
 
-		// enqueue styles needed for import screen
-		else if( in_array( 'we-the-people_page_we-the-people-import', $hook ) ) {
-			wp_enqueue_style( 'wtp-general' );
-			wp_enqueue_style( 'wtp-import-step-one' );
-			wp_enqueue_style( 'wtp-import-step-two' );
-			wp_enqueue_script( 'wtp-helpers' );
+		if( $enqueue_general_scripts ) {
+			wp_enqueue_style( 'wtp-general', self::$plugins_url . '/css/admin/general.css' );
+			wp_enqueue_script( 'wtp-helpers', self::$plugins_url . '/js/admin/helpers.js', array( 'jquery' ) );
 		}
 
 		// handle masking the edit post screen as part of WTP
-		else if( in_array( 'post.php', $hook ) && WTP_Petitions::get_post_type() === get_post_type() ) {
-			wp_enqueue_script( 'wtp-helpers' );
-			wp_enqueue_style( 'wtp-petition-editor' );
+		if( in_array( 'post.php', $hook ) && WTP_Petitions::get_post_type() === get_post_type() ) {
+			wp_enqueue_style( 'wtp-petition-editor', self::$plugins_url . '/css/admin/edit.css' );
 		}
 
 		// handle redirects if the user ends up going to the edit table screen

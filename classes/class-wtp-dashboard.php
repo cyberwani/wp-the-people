@@ -2,6 +2,7 @@
 
 // include our dependencies
 require_once( __DIR__ . '/class-wtp-core.php' );
+require_once( __DIR__ . '/class-wtp-petitions.php' );
 
 class WTP_Dashboard {
 
@@ -25,9 +26,30 @@ class WTP_Dashboard {
 	public static function instance() {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
+			self::_add_actions();
 		}
 
 		return self::$_instance;
+	}
+
+	/**
+	 * Add all actions necessary for this class to work
+	 */
+	private static function _add_actions() {
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+	}
+
+	/**
+	 * Enqueue all required scripts for this class to work
+	 */
+	public static function enqueue_scripts( $hook = array() ) {
+		if( ! is_array( $hook ) )
+			$hook = array( $hook );
+
+		if( in_array( 'toplevel_page_we-the-people', $hook ) ) {
+			wp_enqueue_style( 'wtp-dashboard', WTP_Core::$plugins_url . '/css/admin/dashboard.css', array( 'wtp-general' ) );
+			wp_enqueue_script( 'wtp-dashboard', WTP_Core::$plugins_url . '/js/admin/dashboard.js', array( 'jquery', 'wtp-helpers' ) );
+		}
 	}
 
 	/**

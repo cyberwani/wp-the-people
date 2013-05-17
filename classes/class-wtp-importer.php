@@ -1,5 +1,10 @@
 <?php
 
+// require the child classes
+require_once( __DIR__ . '/class-wtp-importer-step-one.php' );
+require_once( __DIR__ . '/class-wtp-importer-step-two.php' );
+require_once( __DIR__ . '/class-wtp-importer-step-three.php' );
+
 class WTP_Importer {
 
 	/**
@@ -22,9 +27,32 @@ class WTP_Importer {
 	public static function instance() {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
+			self::_add_actions();
 		}
 
 		return self::$_instance;
+	}
+
+	/**
+	 * Add all actions necessary for this class to work
+	 */
+	private static function _add_actions() {
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+	}
+
+	/**
+	 * Enqueue all required scripts for this class to work
+	 */
+	public static function enqueue_scripts( $hook = array() ) {
+		if( ! is_array( $hook ) )
+			$hook = array( $hook );
+
+		$plugin_url = plugins_url( '/..', __FILE__ );
+
+		if( in_array( 'we-the-people_page_we-the-people-import', $hook ) ) {
+			wp_enqueue_style( 'wtp-import-step-one', $plugin_url . '/css/admin/importer-step-one.css', array( 'wtp-general' ) );
+			wp_enqueue_style( 'wtp-import-step-two', $plugin_url . '/css/admin/importer-step-two.css', array( 'wtp-general' ) );
+		}
 	}
 
 	/**

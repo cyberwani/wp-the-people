@@ -1,9 +1,7 @@
 <?php
 
 // include our dependencies
-require_once( __DIR__ . '/class-wtp-api.php' );
 require_once( __DIR__ . '/class-wtp-intermediary-api.php' );
-require_once( __DIR__ . '/class-wtp-core.php' );
 
 // require the views for the shortcodes to work
 require_once( __DIR__ . '/class-wtp-view-default.php' );

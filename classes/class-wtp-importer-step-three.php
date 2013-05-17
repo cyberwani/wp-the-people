@@ -1,7 +1,6 @@
 <?php
 
 // include our dependencies
-require_once( __DIR__ . '/class-wtp-core.php' );
 require_once( __DIR__ . '/class-wtp-petitions.php' );
 require_once( __DIR__ . '/class-wtp-importer.php' );
 
