@@ -7,7 +7,7 @@ class WTP_Intermediary_API {
 	 *
 	 * @var string
 	 */
-	private static $_base_url = 'http://my.dev/wtp-api/';
+	private static $_base_url = 'http://api.10uplabs.com/wethepeople/';
 
 	/**
 	 * An empty constructor

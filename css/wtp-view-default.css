@@ -1,0 +1,55 @@
+section.wtp-petition {
+	padding: 10px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border: 1px solid #ccc;
+	position: relative;
+	background: url(../images/us-seal-bg-half-faded.png) no-repeat top left #fafafa;
+	margin: 10px 0 0 0;
+}
+section.wtp-petition .petition-title {
+	font-weight: bolder;
+	font-size: 16px;
+}
+section.wtp-petition .petition-created-date {
+	font-size: 14px;
+	margin: 0 0 10px 0;
+}
+section.wtp-petition .petition-body {
+	font-size: 14px;
+}
+section.wtp-petition .petition-footer {
+	margin: 10px 0 0 0;
+	font-size: 14px;
+	border-top: 1px solid #ddd;
+	padding: 10px 0 0 0;
+}
+section.wtp-petition .petition-status {
+	font-style: italic;
+}
+section.wtp-petition .petition-issues {
+	font-size: 14px;
+	margin: 10px 0 0 0;
+}
+section.wtp-petition .petition-progress-bar {
+	height: 20px;
+	background-color: #d9d9d9;
+	display: block;
+	margin: 10px 0 0 0;
+	position: relative;
+}
+section.wtp-petition .petition-progress-bar .progress {
+	height: 20px;
+	background-color: #999;
+	width: 0;
+}
+section.wtp-petition .petition-progress-bar .progress-text {
+	font-size: 12px;
+	text-align: left;
+	position: absolute;
+	top: 1px;
+	left: 10px;
+	color: #000;
+	font-weight: bolder;
+}
