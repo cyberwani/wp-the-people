@@ -53,7 +53,7 @@ class WTP_Core {
 	 */
 	public static function add_menu_pages() {
 		add_menu_page( 'We The People', 'We The People', 'publish_pages', 'we-the-people', array( 'WTP_Dashboard', 'load' ), plugins_url( 'we-the-people/images/us-flag-menu-icon.png' ), 67.10 );
-		add_submenu_page( 'we-the-people', 'Import a Petition', 'Import a Petition', 'editor', 'we-the-people-import', array( 'WTP_Importer', 'render_import_page' ) );
+		add_submenu_page( 'we-the-people', 'Import a Petition', 'Import a Petition', 'publish_pages', 'we-the-people-import', array( 'WTP_Importer', 'render_import_page' ) );
 	}
 
 	/**
