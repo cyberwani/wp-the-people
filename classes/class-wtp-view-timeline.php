@@ -39,10 +39,9 @@ class WTP_View_Timeline {
 	 * Enqueue all scripts needed by this class/view
 	 */
 	public static function enqueue_scripts() {
-		$plugin_url = plugins_url( '/..', __FILE__ );
 
 		// enqueue the stylesheet for this view
-		wp_enqueue_style( 'wtp-view-timeline', $plugin_url . '/css/wtp-view-timeline.css' );
+		wp_enqueue_style( 'wtp-view-timeline', WTP_Core::$plugins_url . '/css/wtp-view-timeline.css' );
 	}
 
 	/**

@@ -70,7 +70,6 @@ class WTP_Petitions {
 	 * Handles rendering the petition status for the meta box
 	 */
 	public static function render_petition_status_meta() {
-		$plugin_url = plugins_url( '/..', __FILE__ );
 
 		$id = get_the_ID();
 		$status = get_post_meta( $id, 'petition_status', true );
@@ -107,7 +106,7 @@ class WTP_Petitions {
 				<span><?php echo $signature_count; ?></span>
 			</div>
 		</div>
-		<script type="text/javascript" src="<?php echo $plugin_url; ?>/js/admin/petition-status.js"></script>
+		<script type="text/javascript" src="<?php echo WTP_Core::$plugins_url ?>/js/admin/petition-status.js"></script>
 		<?php
 	}
 

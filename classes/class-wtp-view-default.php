@@ -39,10 +39,9 @@ class WTP_View_Default {
 	 * Enqueue all scripts needed by this class/view
 	 */
 	public static function enqueue_scripts() {
-		$plugin_url = $plugin_url = plugins_url( '/..', __FILE__ );;
 
 		// enqueue the stylesheet for this view
-		wp_enqueue_style( 'wtp-view-default', $plugin_url . '/css/wtp-view-default.css' );
+		wp_enqueue_style( 'wtp-view-default', WTP_Core::$plugins_url . '/css/wtp-view-default.css' );
 	}
 
 	/**
@@ -55,7 +54,7 @@ class WTP_View_Default {
 	public static function render( $post = false, $attributes = array() ) {
 
 		// enqueue the javascript we need for this to work
-		wp_enqueue_script( 'wtp-view-default', $plugin_url = plugins_url( '/../js/wtp-view-default.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'wtp-view-default', WTP_Core::$plugins_url . '/js/wtp-view-default.js', array( 'jquery' ) );
 
 		$status = get_post_meta( $post->ID, 'petition_status', true );
 		$url = get_post_meta( $post->ID, 'petition_url', true );

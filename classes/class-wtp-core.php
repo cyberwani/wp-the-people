@@ -34,7 +34,7 @@ class WTP_Core {
 		if( ! self::$_instance ) {
 			self::$_instance = new self();
 			self::_add_actions();
-			self::$plugins_url = plugins_url( '/..', __FILE__ );
+			self::$plugins_url = plugins_url( '', dirname(__FILE__) );
 		}
 
 		return self::$_instance;

@@ -38,19 +38,18 @@ class WTP_View_Geographic {
 	 * https://github.com/kanarinka/We-The-People-Map
 	 */
 	public static function enqueue_scripts() {
-		$plugin_url = plugins_url( '/..', __FILE__ );
 
 		// enqueue the stylesheet for this view
-		wp_enqueue_style( 'wtp-view-geographic', $plugin_url . '/css/wtp-view-geographic.css' );
+		wp_enqueue_style( 'wtp-view-geographic', WTP_Core::$plugins_url . '/css/wtp-view-geographic.css' );
 
 		// enqueue leaflet, the library
 		wp_enqueue_script( 'leaflet', 'http://cdn.leafletjs.com/leaflet-0.5/leaflet.js' );
 		wp_enqueue_style( 'leaflet', 'http://cdn.leafletjs.com/leaflet-0.5/leaflet.css' );
 
 		// enqueue leaflet markercluster
-		wp_enqueue_script( 'leaflet-markercluster', $plugin_url . '/js/leaflet/leaflet.markercluster.js', array( 'leaflet' ) );
-		wp_enqueue_style( 'leaflet-markercluster', $plugin_url . '/css/leaflet/leaflet.markercluster.css', array( 'leaflet' ) );
-		wp_enqueue_style( 'leaflet-markercluster-default', $plugin_url . '/css/leaflet/leaflet.markercluster.default.css', array( 'leaflet-markercluster' ) );
+		wp_enqueue_script( 'leaflet-markercluster', WTP_Core::$plugins_url . '/js/leaflet/leaflet.markercluster.js', array( 'leaflet' ) );
+		wp_enqueue_style( 'leaflet-markercluster', WTP_Core::$plugins_url . '/css/leaflet/leaflet.markercluster.css', array( 'leaflet' ) );
+		wp_enqueue_style( 'leaflet-markercluster-default', WTP_Core::$plugins_url . '/css/leaflet/leaflet.markercluster.default.css', array( 'leaflet-markercluster' ) );
 	}
 
 	/**

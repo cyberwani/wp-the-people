@@ -47,11 +47,9 @@ class WTP_Importer {
 		if( ! is_array( $hook ) )
 			$hook = array( $hook );
 
-		$plugin_url = plugins_url( '/..', __FILE__ );
-
 		if( in_array( 'we-the-people_page_we-the-people-import', $hook ) ) {
-			wp_enqueue_style( 'wtp-import-step-one', $plugin_url . '/css/admin/importer-step-one.css', array( 'wtp-general' ) );
-			wp_enqueue_style( 'wtp-import-step-two', $plugin_url . '/css/admin/importer-step-two.css', array( 'wtp-general' ) );
+			wp_enqueue_style( 'wtp-import-step-one', WTP_Core::$plugins_url . '/css/admin/importer-step-one.css', array( 'wtp-general' ) );
+			wp_enqueue_style( 'wtp-import-step-two', WTP_Core::$plugins_url . '/css/admin/importer-step-two.css', array( 'wtp-general' ) );
 		}
 	}
 
