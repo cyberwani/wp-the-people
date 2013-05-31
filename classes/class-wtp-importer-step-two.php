@@ -1,7 +1,7 @@
 <?php
 
 // include our dependencies
-require_once( __DIR__ . '/class-wtp-api.php' );
+require_once( __DIR__ . '/class-wtp-intermediary-api.php' );
 require_once( __DIR__ . '/class-wtp-core.php' );
 require_once( __DIR__ . '/class-wtp-importer.php' );
 
@@ -36,20 +36,18 @@ class WTP_Importer_Step_Two {
 		if( ! isset( $_GET[ 'id' ] ) )
 			die( '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>' );
 
-		$petition = WTP_API::get_petition( $_GET[ 'id' ] );
+		$petition = WTP_Intermediary_API::get_petition_data( $_GET[ 'id' ] );
 
-		if( ! isset( $petition[ 'results' ] ) || count( $petition[ 'results' ] ) === 0 )
+		if( empty( $petition ) && ! isset( $petition[ 'error' ] ) )
 			die( '<script type="text/javascript">window.location.href = \'' . admin_url( 'admin.php' ) . '?page=we-the-people-import\';</script>' );
 
 		// enqueue the appropriate JS
 		wp_enqueue_script( 'wtp-import-step-two', WTP_Core::$plugins_url . '/js/admin/importer-step-two.js', array( 'jquery', 'wtp-helpers' ) );
 
-		$petition = $petition[ 'results' ][ 0 ];
-
         // prevent division by zero
-        if( 1 <= $petition[ 'signaturesNeeded' ] ) {
+        if( 1 <= $petition[ 'signatures_needed' ] ) {
             // make sure that this percentage does not exceed 100
-            $petition_progress = ( ( $petition[ 'signatureCount' ] / $petition[ 'signaturesNeeded' ] ) * 100 );
+            $petition_progress = ( ( $petition[ 'signature_count' ] / $petition[ 'signatures_needed' ] ) * 100 );
             if( 100 < $petition_progress )
                 $petition_progress = 100;
         }
@@ -75,7 +73,7 @@ class WTP_Importer_Step_Two {
 						<div class="progress-bar alignleft">
 							<div class="progress" data-progress="<?php echo $petition_progress; ?>"></div>
 						</div>
-						<span class="alignleft"><?php echo $petition[ 'signatureCount' ]; ?> of <?php echo $petition[ 'signaturesNeeded' ]; ?></span>
+						<span class="alignleft"><?php echo $petition[ 'signature_count' ]; ?> of <?php echo $petition[ 'signatures_needed' ]; ?></span>
 						<div class="clear"></div>
 					</div>
 				</div>
