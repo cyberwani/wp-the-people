@@ -1,7 +1,7 @@
 <?php
 
 // include our dependencies
-require_once( __DIR__ . '/class-wtp-api.php' );
+require_once( __DIR__ . '/class-wtp-intermediary-api.php' );
 require_once( __DIR__ . '/class-wtp-core.php' );
 
 class WTP_Importer_Step_One {
@@ -50,8 +50,7 @@ class WTP_Importer_Step_One {
 			die( '<tr><td colspan="5"><p>Search for something using the box above.</p></td></tr>' );
 
 		$params = array(
-			'title' => $search_text,
-			'limit' => 100,
+			'q' => $search_text,
 		);
 
 		// check for the status parameter
@@ -60,14 +59,14 @@ class WTP_Importer_Step_One {
 			$params[ 'status' ] = $_REQUEST[ 'status' ];
 		}
 
-		$petitions = WTP_API::get_petitions( $params );
+		$petitions = WTP_Intermediary_API::search_petitions( $params );
 
-		if( ! $petitions || ! isset( $petitions[ 'results' ] ) || count( $petitions[ 'results' ] ) === 0 )
+		if( ! $petitions || ! is_array( $petitions ) || empty( $petitions ) )
 			die( '<tr><td colspan="6"><p>No results were found for "' . $search_text . '".</p></td></tr>' );
 
 		$html = '';
 		$alternate = false;
-		foreach( $petitions[ 'results' ] as $data ) {
+		foreach( $petitions as $data ) {
 			// highlight any parts of the text that were found
 			$data[ 'title' ] = preg_replace( '/' . $search_text . '/i', '<span class="search-highlight">$0</span>', $data[ 'title' ] );
 			$alternate = ! $alternate;

@@ -51,6 +51,19 @@ class WTP_Intermediary_API {
 	}
 
 	/**
+	 * Searches the intermediary API for petitions with a like %% query
+	 *
+	 * @param array $params
+	 * @return mixed
+	 */
+	public static function search_petitions( $params = array() ) {
+		$params[ 'type' ] = 'search';
+
+		$url = self::$_base_url . '?' . http_build_query( $params );
+		return self::_retrieve_url( $url );
+	}
+
+	/**
 	 * Gets the geographical data for the specified petition
 	 *
 	 * @param string $id
