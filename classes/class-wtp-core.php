@@ -65,9 +65,9 @@ class WTP_Core {
 		if( ! is_array( $hook ) )
 			$hook = array( $hook );
 
-		wp_register_style( 'wtp-general', self::$plugins_url . '/css/admin/general.css' );
-		wp_register_script( 'wtp-helpers', self::$plugins_url . '/js/admin/helpers.js', array( 'jquery' ) );
-
+		// TODO: Hackathon hack; we should only really load this where needed but something ain't workin' and I ain't got time...
+		wp_enqueue_script( 'wtp-helpers', self::$plugins_url . '/js/admin/helpers.js', array( 'jquery' ) );
+		wp_enqueue_style( 'wtp-general', self::$plugins_url . '/css/admin/general.css' );
 		// enqueue the hider script
 		wp_enqueue_style( 'wtp-menu-hider', self::$plugins_url . '/css/admin/menu-hider.css' );
 
