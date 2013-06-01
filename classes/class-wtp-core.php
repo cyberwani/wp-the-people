@@ -65,22 +65,11 @@ class WTP_Core {
 		if( ! is_array( $hook ) )
 			$hook = array( $hook );
 
+		wp_register_style( 'wtp-general', self::$plugins_url . '/css/admin/general.css' );
+		wp_register_script( 'wtp-helpers', self::$plugins_url . '/js/admin/helpers.js', array( 'jquery' ) );
+
 		// enqueue the hider script
 		wp_enqueue_style( 'wtp-menu-hider', self::$plugins_url . '/css/admin/menu-hider.css' );
-
-		// enqueue the helpers on and general stylesheets on all relevant admin screens
-		$admin_screens = array( 'toplevel_page_we-the-people', 'we-the-people_page_we-the-people-import' );
-		$enqueue_general_scripts = false;
-		foreach( $admin_screens as $screen )
-			if( in_array( $screen, $hook ) ) {
-				$enqueue_general_scripts = true;
-				break;
-			}
-
-		if( $enqueue_general_scripts ) {
-			wp_enqueue_style( 'wtp-general', self::$plugins_url . '/css/admin/general.css' );
-			wp_enqueue_script( 'wtp-helpers', self::$plugins_url . '/js/admin/helpers.js', array( 'jquery' ) );
-		}
 
 		// handle masking the edit post screen as part of WTP
 		if( in_array( 'post.php', $hook ) && WTP_Petitions::get_post_type() === get_post_type() ) {
@@ -91,6 +80,10 @@ class WTP_Core {
 		// handle redirects if the user ends up going to the edit table screen
 		else if( in_array( 'edit.php', $hook ) && WTP_Petitions::get_post_type() === get_query_var( 'post_type' ) )
 			die( '<script type="text/javascript">document.querySelector( "html" ).style.display = "none"; window.location.href = "' . menu_page_url( 'we-the-people' ) . '";</script>' );
+	}
+
+	public static function is_media_upload_page() {
+		return 'media-upload' === get_current_screen()->id && 'wp-the-people' === $_GET['tab'];
 	}
 }
 

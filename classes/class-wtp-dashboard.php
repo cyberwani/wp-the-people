@@ -36,19 +36,52 @@ class WTP_Dashboard {
 	 * Add all actions necessary for this class to work
 	 */
 	private static function _add_actions() {
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+		if ( is_admin() ) {
+			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+			add_filter( 'media_upload_tabs', array( __CLASS__, 'add_media_upload_tab' ) );
+			add_filter( 'media_upload_wp-the-people', array( __CLASS__, 'render_media_upload_tab' ) );
+		}
+	}
+
+	public function add_media_upload_tab( $tabs ) {
+		return array_merge( $tabs, array(
+			'wp-the-people' => __( 'Insert Petition', 'wp-the-people' ),
+		) );
+	}
+
+	public function render_media_upload_tab() {
+		// TODO: use backbone to render the view instead of the legacy iframe approach
+		return wp_iframe( array( __CLASS__, 'render_media_upload_tab_iframe' ) );
+	}
+
+	public function render_media_upload_tab_iframe() {
+		self::_render_dashboard();
+		/*
+		?>
+		<div id="wp-the-people-insert-iframe" class="attachments-browser">
+			<div id="wp-the-people-insert-toolbar" class="media-toolbar">
+				Toolbar
+			</div>
+			<ul id="wpcom-shortcoder-shortcodes" class="attachments">
+				List
+			</ul>
+			<div class="media-sidebar">Sidebar</div>
+		</div>
+		<?php
+		*/
 	}
 
 	/**
 	 * Enqueue all required scripts for this class to work
 	 */
 	public static function enqueue_scripts( $hook = array() ) {
-		if( ! is_array( $hook ) )
-			$hook = array( $hook );
-
-		if( in_array( 'toplevel_page_we-the-people', $hook ) ) {
+		if( in_array( $hook, array( 'toplevel_page_we-the-people' ) ) || WTP_Core::is_media_upload_page() ) {
 			wp_enqueue_style( 'wtp-dashboard', WTP_Core::$plugins_url . '/css/admin/dashboard.css', array( 'wtp-general' ) );
 			wp_enqueue_script( 'wtp-dashboard', WTP_Core::$plugins_url . '/js/admin/dashboard.js', array( 'jquery', 'wtp-helpers' ) );
+		}
+
+		if ( WTP_Core::is_media_upload_page() ) {
+			wp_enqueue_script( 'wtp-media-popup', WTP_Core::$plugins_url . '/js/admin/media-popup.js', array( 'jquery', 'underscore', 'wtp-dashboard' ) );
 		}
 	}
 
@@ -73,21 +106,20 @@ class WTP_Dashboard {
 	/**
 	 * Renders the dashboard for this plugin
 	 */
-	private static function  _render_dashboard() {
+	private static function _render_dashboard() {
 		?>
 		<div class="wrap">
 			<div class="alignleft us-seal"></div>
 			<div class="alignleft logo"></div>
 			<div class="clear"></div>
 			<p>The right to petition your government is guaranteed by the First Amendment of the United States Constitution. <a href="https://petitions.whitehouse.gov/how-why/introduction">We the People</a> provides a new way to petition the Obama Administration to take action on a range of important issues facing our country. We created <a href="https://petitions.whitehouse.gov/how-why/introduction">We the People</a> because we want to hear from you. If a petition gets enough support, White House staff will review it, ensure it’s sent to the appropriate policy experts, and issue an official response.</p>
-			<a href="<?php menu_page_url( 'we-the-people-import' ); ?>" class="button-primary">Import A Petition</a>
-			<a href="https://petitions.whitehouse.gov/petition/create" class="button">Create a Petition</a>
+			<a href="<?php menu_page_url( 'we-the-people-import' ); ?>" class="button-primary" target="_top">Import A Petition</a>
+			<a href="https://petitions.whitehouse.gov/petition/create" class="button" target="_blank">Create a Petition</a>
 			<h3>Your Imported Petitions:</h3>
 			<table class="wp-list-table widefat fixed imported-petitions">
 				<thead>
 					<tr>
 						<th>Petition</th>
-						<th style="width: 200px;">Short Code</th>
 						<th style="width: 100px;">End Date</th>
 						<th style="width: 210px;">Progress</th>
 						<th style="width: 90px;"></th>
@@ -99,7 +131,6 @@ class WTP_Dashboard {
 				<tfoot>
 					<tr>
 						<th>Petition</th>
-						<th style="width: 200px;">Short Code</th>
 						<th style="width: 100px;">End Date</th>
 						<th style="width: 200px;">Progress</th>
 						<th style="width: 80px;"></th>
@@ -148,7 +179,6 @@ class WTP_Dashboard {
 			?>
 			<tr>
 				<td><?php the_title(); ?></td>
-				<td><code>[petition id="<?php echo $id; ?>"/]</code></td>
 				<td>May 24, 2013</td>
 				<td>
 					<div class="alignleft progress-bar">
@@ -157,7 +187,13 @@ class WTP_Dashboard {
 					<div class="alignleft progress-bar-text"><?php echo $signature_count; ?> / <?php echo $signatures_needed; ?></div>
 					<div class="clear"></div>
 				</td>
-				<td style="text-align: right;"><a href="<?php echo admin_url( 'post.php?post=' . $id . '&action=edit' ); ?>">Edit</a> | <a href="<?php menu_page_url( 'we-the-people' ); ?>&remove=true&id=<?php echo $id; ?>">Remove</a></td>
+				<td style="text-align: right;">
+					<?php if ( WTP_Core::is_media_upload_page() ) : ?>
+						<a href="javascript:void(0);" class="button wtp-insert-petition-shortcode" data-petition-id="<?php echo esc_attr( $id ); ?>"><?php _e( 'Add to Post', 'wp-the-people' ); ?></a>
+					<?php else : ?>
+						<a href="<?php echo admin_url( 'post.php?post=' . $id . '&action=edit' ); ?>">Edit</a> | <a href="<?php menu_page_url( 'we-the-people' ); ?>&remove=true&id=<?php echo $id; ?>">Remove</a>
+					<?php endif; ?>
+				</td>
 			</tr>
 			<?php
 
