@@ -229,10 +229,11 @@ class WTP_Petitions {
 		else if( 'geographic' === $type )
 			$html = WTP_View_Geographic::render( $post, $attributes );
 		else
-			return $html;
+			return;
 
 		$petition_url = get_post_meta( $post->ID, 'petition_url', true );
 
+		ob_start();
 		?>
 		<div class="petition-view">
 			<!-- AddThis Button BEGIN -->
@@ -244,6 +245,8 @@ class WTP_Petitions {
 			<?php echo $html; ?>
 		</div>
 		<?php
+		
+		return ob_get_clean();
 	}
 
 }
