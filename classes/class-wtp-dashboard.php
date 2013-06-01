@@ -56,19 +56,6 @@ class WTP_Dashboard {
 
 	public function render_media_upload_tab_iframe() {
 		self::_render_dashboard();
-		/*
-		?>
-		<div id="wp-the-people-insert-iframe" class="attachments-browser">
-			<div id="wp-the-people-insert-toolbar" class="media-toolbar">
-				Toolbar
-			</div>
-			<ul id="wpcom-shortcoder-shortcodes" class="attachments">
-				List
-			</ul>
-			<div class="media-sidebar">Sidebar</div>
-		</div>
-		<?php
-		*/
 	}
 
 	/**
