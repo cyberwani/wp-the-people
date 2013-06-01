@@ -81,7 +81,14 @@ class WTP_View_Default {
 			<div class="petition-body"><?php echo $post->post_content; ?></div>
 			<div class="petition-issues">Issues: <?php echo $issues; ?></div>
 			<div class="petition-progress-bar">
-				<div class="progress-text"><?php echo $signature_count, ' / ', $signatures_needed; ?></div>
+				<div class="progress-text">
+					<?php echo number_format( $signature_count ); ?>
+					<?php if( 0 === $signatures_needed ) : ?>
+						[Completed]
+					<?php else : ?>
+						/ <?php echo $signatures_needed; ?>
+					<?php endif; ?>
+				</div>
 				<div class="progress" data-progress="<?php echo $progress; ?>"></div>
 			</div>
 			<div class="petition-footer">

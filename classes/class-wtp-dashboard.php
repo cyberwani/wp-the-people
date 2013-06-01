@@ -184,7 +184,13 @@ class WTP_Dashboard {
 					<div class="alignleft progress-bar">
 						<div class="progress" data-progress="<?php echo $progress; ?>"></div>
 					</div>
-					<div class="alignleft progress-bar-text"><?php echo $signature_count; ?> / <?php echo $signatures_needed; ?></div>
+					<div class="alignleft progress-bar-text">
+						<?php if( 0 === $signatures_needed ) : ?>
+							Completed
+						<?php else : ?>
+							<?php echo number_format( $signature_count ), ' / ', number_format( $signatures_needed ); ?>
+						<?php endif; ?>
+					</div>
 					<div class="clear"></div>
 				</td>
 				<td style="text-align: right;">

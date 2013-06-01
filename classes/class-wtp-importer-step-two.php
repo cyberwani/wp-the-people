@@ -73,7 +73,13 @@ class WTP_Importer_Step_Two {
 						<div class="progress-bar alignleft">
 							<div class="progress" data-progress="<?php echo $petition_progress; ?>"></div>
 						</div>
-						<span class="alignleft"><?php echo $petition[ 'signature_count' ]; ?> of <?php echo $petition[ 'signatures_needed' ]; ?></span>
+						<span class="alignleft">
+							<?php if( 0 === $petition[ 'signatures_needed' ] ) : ?>
+								Completed
+							<?php else : ?>
+								<?php echo number_format( $petition[ 'signature_count' ] ); ?> of <?php echo number_format( $petition[ 'signatures_needed' ] ); ?>
+							<?php endif; ?>
+						</span>
 						<div class="clear"></div>
 					</div>
 				</div>

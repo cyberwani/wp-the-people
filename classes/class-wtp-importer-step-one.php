@@ -76,8 +76,8 @@ class WTP_Importer_Step_One {
 			<tr <?php echo $alternate ? 'class="alternate"' : ''; ?>>
 				<td><?php echo $data[ 'title' ]; ?></td>
 				<td style="text-align: center;"><?php echo date( 'M. d, Y', $data[ 'deadline' ]) ?></td>
-				<td style="text-align: center;"><?php echo $data[ 'signature_count' ]; ?></td>
-				<td style="text-align: center;"><?php echo $data[ 'signatures_needed' ]; ?></td>
+				<td style="text-align: center;"><?php echo number_format( $data[ 'signature_count' ] ); ?></td>
+				<td style="text-align: center;"><?php echo number_format( $data[ 'signatures_needed' ] ); ?></td>
 				<td style="text-align: center;"><?php echo $data[ 'status' ]; ?></td>
 				<td style="text-align: center;">
 					<a target="_blank" href="<?php echo $data[ 'url' ]; ?>">View Details</a> | <a href="<?php admin_url( 'admin.php' ); ?>?page=we-the-people-import&step=2&id=<?php echo urlencode( $data[ 'id' ] ); ?>">Select Petition</a>
