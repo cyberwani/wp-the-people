@@ -88,7 +88,7 @@ class WTP_View_Timeline {
 
 		$signature_count = 0;
 
-		if ( ! $timeline_data )
+		if ( ! $timeline_data_array )
 			return;
 
 		foreach ( $timeline_data_array as $timeline_entry ) {
