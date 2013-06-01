@@ -73,7 +73,10 @@ class WTP_Importer {
 	}
 
 	private function get_current_step() {
-		return isset( $_GET[ 'step' ] ) && absint( $_GET[ 'step' ] );
+		if ( isset( $_GET[ 'step' ] ) )
+			return absint( $_GET[ 'step' ] );
+
+		return false;
 	}
 }
 
