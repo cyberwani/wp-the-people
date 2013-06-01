@@ -220,14 +220,30 @@ class WTP_Petitions {
 		if( ! $post )
 			return '';
 
+		$html = '';
+
 		if( 'default' === $type )
-			return WTP_View_Default::render( $post, $attributes );
+			$html = WTP_View_Default::render( $post, $attributes );
 		else if( 'timeline' === $type )
-			return WTP_View_Timeline::render( $post, $attributes );
+			$html = WTP_View_Timeline::render( $post, $attributes );
 		else if( 'geographic' === $type )
-			return WTP_View_Geographic::render( $post, $attributes );
+			$html = WTP_View_Geographic::render( $post, $attributes );
 		else
-			return '';
+			return $html;
+
+		$petition_url = get_post_meta( $post->ID, 'petition_url', true );
+
+		?>
+		<div class="petition-view">
+			<!-- AddThis Button BEGIN -->
+			<div class="addthis_toolbox addthis_default_style" addthis:title="Check out this petition!" addthis:url="<?php echo esc_url( $petition_url ); ?>">
+				<a class="addthis_button addthis_button_compact"></a>
+			</div>
+			<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-51aa48cb7dba0b19"></script>
+			<!-- AddThis Button END -->
+			<?php echo $html; ?>
+		</div>
+		<?php
 	}
 
 }
