@@ -95,14 +95,27 @@ class WTP_Dashboard {
 	 */
 	private static function _render_dashboard() {
 		?>
-		<div class="wrap">
+		<div class="wrap wp-the-people-wrap">
 			<div class="alignleft us-seal"></div>
 			<div class="alignleft logo"></div>
 			<div class="clear"></div>
 			<p>The right to petition your government is guaranteed by the First Amendment of the United States Constitution. <a href="https://petitions.whitehouse.gov/how-why/introduction">We the People</a> provides a new way to petition the Obama Administration to take action on a range of important issues facing our country. We created <a href="https://petitions.whitehouse.gov/how-why/introduction">We the People</a> because we want to hear from you. If a petition gets enough support, White House staff will review it, ensure it’s sent to the appropriate policy experts, and issue an official response.</p>
 			<a href="<?php menu_page_url( 'we-the-people-import' ); ?>" class="button-primary" target="_top">Import A Petition</a>
 			<a href="https://petitions.whitehouse.gov/petition/create" class="button" target="_blank">Create a Petition</a>
+
+			<?php if ( WTP_Core::is_media_upload_page() ) : ?>
+				<label class="wp-the-people-view-type-label">
+					<?php _e( 'Visualization Type:', 'wp-the-people' ); ?>
+					<select class="wp-the-people-view-type">
+						<option value="default">Summary</option>
+						<option value="geographic">Geographic</option>
+						<option value="timeline">Timeline</option>
+					</select>
+				</label>
+			<?php endif; ?>
+
 			<h3>Your Imported Petitions:</h3>
+
 			<table class="wp-list-table widefat fixed imported-petitions">
 				<thead>
 					<tr>

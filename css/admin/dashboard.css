@@ -20,3 +20,7 @@
 .imported-petitions tr td code {
     font-size: 10px;
 }
+
+.wp-the-people-view-type-label {
+    float: right;
+}

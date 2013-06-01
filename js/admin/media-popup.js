@@ -25,10 +25,10 @@
 				return;
 			}
 
-			$.extend( args, default_args );
+			$.extend( default_args, args );
 
 			$.each( args, function( attr_name, attr_value ) {
-				shortcode_attr += _.template( ' <%= data.attr_name %>="<%= data.attr_value %>"', { attr_name: attr_name, attr_value: attr_value }, { variable: 'data' } );
+				shortcode_attr += _.template( '<%= data.attr_name %>="<%= data.attr_value %>" ', { attr_name: attr_name, attr_value: attr_value }, { variable: 'data' } );
 			} );
 
 			shortcode_text = _.template( '[petition id="<%= data.petition_id %>" <%= data.shortcode_attr %>]', { petition_id: petition_id, shortcode_attr: shortcode_attr }, { variable: 'data' } );
@@ -40,10 +40,11 @@
 			e.preventDefault();
 
 			var $this = $( this ),
-				petition_id = $this.attr( 'data-petition-id' );
+				petition_id = $this.attr( 'data-petition-id' ),
+				type = $( '.wp-the-people-view-type' ).val();
 
 			_addShortcodeToPost( petition_id, {
-				//"type": type,
+				"type": type,
 			} );
 		}
 
