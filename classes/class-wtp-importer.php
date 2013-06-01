@@ -57,14 +57,23 @@ class WTP_Importer {
 	 * Renders the import page for petitions
 	 */
 	public function render_import_page() {
-		if( ! isset( $_GET[ 'step' ] ) )
-			WTP_Importer_Step_One::render();
-		else if( '2' === $_GET[ 'step' ] )
-			WTP_Importer_Step_Two::render();
-		else if( '3' === $_GET[ 'step' ] )
-			WTP_Importer_Step_Three::import( $_GET[ 'petition_id' ] );
-		else
-			WTP_Importer_Step_One::render();
+		$step = self::get_current_step();
+
+		switch ( $step ) {
+			case 2:
+				WTP_Importer_Step_Two::render();
+				break;
+			case 3:
+				WTP_Importer_Step_Three::import( $_GET[ 'petition_id' ] );
+				break;
+			default:
+				WTP_Importer_Step_One::render();
+				break;
+		}
+	}
+
+	private function get_current_step() {
+		return isset( $_GET[ 'step' ] ) && absint( $_GET[ 'step' ] );
 	}
 }
 
