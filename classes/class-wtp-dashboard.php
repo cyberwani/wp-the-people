@@ -156,7 +156,7 @@ class WTP_Dashboard {
 		if( ! $query->have_posts() ) {
 			?>
 			<tr>
-				<td colspan="5">No petitions have been imported yet.</td>
+				<td colspan="4">No petitions have been imported yet.</td>
 			</tr>
 			<?php
 			return;
