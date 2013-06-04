@@ -21,3 +21,4 @@ WP the People allows you to easily embed petitions from the We the People API th
 ![geographic view](https://raw.github.com/10up/wp-the-people/master/screenshots/geographical-view.png)
 
 ## Demo Video
+![video demo](https://raw.github.com/10up/wp-the-people/master/screenshots/wp-the-people.gif)
