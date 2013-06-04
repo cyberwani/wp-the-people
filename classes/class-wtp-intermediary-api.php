@@ -21,9 +21,11 @@ class WTP_Intermediary_API {
 	 * @return mixed
 	 */
 	protected static function _retrieve_url( $url = '' ) {
-		$result = wp_remote_get( $url );
+		$result = wp_remote_get( $url, array(
+			'timeout' => 12,
+		) );
 		if( is_wp_error( $result ) )
-			return false;
+			return $result;
 
 		if( 200 !== wp_remote_retrieve_response_code( $result ) )
 			return false;
